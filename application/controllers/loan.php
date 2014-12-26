@@ -20,7 +20,8 @@ class loan extends CI_Controller {
 			$jsurl=base_url().'public/datepicker/bootstrap-datepicker.js';
 			$data['loadJs']=array($jsurl);
 			$cssurl=base_url().'public/datepicker/datepicker.css';
-			$data['loadCss']=array($cssurl);			
+			$data['loadCss']=array($cssurl);	
+			$data['borrower']=$this->loan_model->get_borrower($id);					
 		    $data['contant']=$this->load->view('newloan',$data,true);
 		    $this->load->view('master',$data);
 		}
@@ -83,6 +84,7 @@ class loan extends CI_Controller {
 			$amount = $this->input->post('amount');
 			$rate = $this->input->post('rate');
 			$start_date = $this->input->post('start_date');
+			$payoff_date = $this->input->post('payoff_date');		
 			$installment_duration = $this->input->post('installment_duration');
 			$note = $this->input->post('note');
 			$status="1";
@@ -92,6 +94,7 @@ class loan extends CI_Controller {
 				'amount'=>$amount,
 				'rate'=>$rate,
 				'start_date'=>$start_date,
+				'payoff_date'=>$payoff_date,
 				'installment_duration'=>$installment_duration,
 				'note'=>$note,
 				'status'=>$status,
@@ -112,16 +115,23 @@ class loan extends CI_Controller {
 
 	function search() {
 		//dsm($this->input->post()); die;		
-		$loan_id = $this->input->post('loan_id');
+		$firstname = $this->input->post('firstname');
+		$lastname = $this->input->post('lastname');
 		$amount = $this->input->post('amount');
 		$rate = $this->input->post('rate');
 		$period = $this->input->post('period');	
 		$start_date = $this->input->post('start_date');
 		$status = $this->input->post('status');
+		
+		$jsurl=base_url().'public/datepicker/bootstrap-datepicker.js';
+		$data['loadJs']=array($jsurl);
+		$cssurl=base_url().'public/datepicker/datepicker.css';
+		$data['loadCss']=array($cssurl);		
+	
 		$this->load->helper('form');
 		$data['pageTitle']="Loan Information";
 		$this->load->model('loan_model');
-		$data['loan']=$this->loan_model->get_search_loan($loan_id,$amount,$rate,$period,$start_date,$status);			
+		$data['loan']=$this->loan_model->get_search_loan($firstname,$lastname,$amount,$rate,$period,$start_date,$status);			
 		$data['contant']=$this->load->view('loan_details',$data,true);
 		$this->load->view('master',$data);		
 	}	

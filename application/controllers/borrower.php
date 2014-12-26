@@ -92,17 +92,18 @@ class borrower extends CI_Controller {
 		else {
 
 			$this->load->model('borrower_model');
-			$firstname = $this->input->post('firstname');
-			$lastname = $this->input->post('lastname');
+			$firstname = strtoupper($this->input->post('firstname'));
+			$lastname = strtoupper($this->input->post('lastname'));
 			$dob = $this->input->post('dob');
 			$mobile = $this->input->post('mobile');
 			$phone = $this->input->post('phone');
 			$address = $this->input->post('address');
-			$city = $this->input->post('city');
+			$city = strtoupper($this->input->post('city'));
 			$gender = $this->input->post('gender');
 			$email = $this->input->post('email');
 			$adharno = $this->input->post('adharno');
 			$drivinglic = $this->input->post('drivinglic');
+			$note = $this->input->post('note');
 			$created_at=date('Y-m-d H:i:s');
 			$data = array(
 				'firstname'=>$firstname,
@@ -115,6 +116,7 @@ class borrower extends CI_Controller {
 				'gender'=>$gender,
 				'adharno'=>$adharno,
 				'drivinglic'=>$drivinglic,
+				'note'=>$note,
 				'created_at'=>$created_at,				
 				'email'=>$email			
 			);
@@ -150,17 +152,18 @@ class borrower extends CI_Controller {
 	else {
 			$this->load->model('borrower_model');
 			$borrower_id = $this->input->post('borrower_id');	
-			$firstname = $this->input->post('firstname');
-			$lastname = $this->input->post('lastname');
+			$firstname = strtoupper($this->input->post('firstname'));
+			$lastname = strtoupper($this->input->post('lastname'));
 			$dob = $this->input->post('dob');
 			$mobile = $this->input->post('mobile');
 			$phone = $this->input->post('phone');
 			$address = $this->input->post('address');
-			$city = $this->input->post('city');
+			$city = strtoupper($this->input->post('city'));
 			$email = $this->input->post('email');
 			$gender = $this->input->post('gender');
 			$adharno = $this->input->post('adharno');
 			$drivinglic = $this->input->post('drivinglic');	
+			$note = $this->input->post('note');
 			$updated_at	= date('Y-m-d h:i:s');	
 			$data = array(
 				'firstname'=>$firstname,
@@ -173,6 +176,7 @@ class borrower extends CI_Controller {
 				'gender'=>$gender,
 				'adharno'=>$adharno,
 				'drivinglic'=>$drivinglic,	
+				'note'=>$note,
 				'updated_at'=>$updated_at,				
 				'email'=>$email			
 			);
@@ -227,6 +231,7 @@ class borrower extends CI_Controller {
 		$this->load->model('borrower_model');
 		$amount=$this->borrower_model->get_loan_amount($id);
 		$chkamount=$this->borrower_model->get_loan_amount_loantxn($id);
+
 		if($chkamount == "0") {
 			$principal=$amount[0]['amount'];
 		}
@@ -235,6 +240,7 @@ class borrower extends CI_Controller {
 			$principal=$finalamount[0]['final_amount'];
 		}
 		$chkdate=$this->borrower_model->get_loan_date($id);
+
 		if($chkdate == "0") {
 			$datetime1 = new DateTime($amount[0]['start_date']);
 			$datetime2 = new DateTime($date);
@@ -242,24 +248,31 @@ class borrower extends CI_Controller {
 			$diff=$interval->format('%a');
 			$datearr=explode('-', $amount[0]['start_date']);
 			$num = cal_days_in_month(CAL_GREGORIAN, $datearr[1], $datearr[0]);
-
 			if($payoff=="1") {
 				if ($diff<=$num) {
-					$pay_amount=$principal+($principal*$num*$amount[0]['rate'])/100;
+					$num=number_format($num/365,2);
+					$rate=number_format($amount[0]['rate']/100,2);
+					$pay_amount=$principal+($principal*$num*$rate);
 					echo $pay_amount;
 				}
 				else {
-					$pay_amount=$principal+($principal*$diff*$amount[0]['rate'])/100;
+					$diff=number_format($diff/365,2);
+					$rate=number_format($amount[0]['rate']/100,2);
+					$pay_amount=$principal+($principal*$diff*$rate);
 					echo $pay_amount;
 				}
 			} 
 			else {
 				if ($diff<=$num) {
-					$pay_amount=($principal*$num*$amount[0]['rate'])/100;
+					$num=number_format($num/365,2);
+					$rate=number_format($amount[0]['rate']/100,2);
+					$pay_amount=$principal*$num*$rate;
 					echo $pay_amount;
 				}
 				else {
-					$pay_amount=($principal*$diff*$amount[0]['rate'])/100;
+					$diff=number_format($diff/365,2);
+					$rate=number_format($amount[0]['rate']/100,2);
+					$pay_amount=$principal*$diff*$rate;
 					echo $pay_amount;
 				}					
 			}  		
@@ -271,18 +284,24 @@ class borrower extends CI_Controller {
 			$interval = $datetime2->diff($datetime1);
 			$diff=$interval->format('%a');
 			if($payoff=="1") {
-				$pay_amount=$principal+($principal*$diff*$amount[0]['rate'])/100;
+				$diff=number_format($diff/365,2);
+				$rate=number_format($amount[0]['rate']/100,2);
+				$pay_amount=$principal+($principal*$diff*$rate);
 				echo $pay_amount;
 			}    
-			else {
+			else {			
 				$datearr=explode('-', $date);
 				$num = cal_days_in_month(CAL_GREGORIAN, $datearr[1], $datearr[0]);
+				$num=number_format($num/365,2);
+				$rate=number_format($amount[0]['rate']/100,2);				
 				if($diff<=$num) {
-					$pay_amount=($principal*$num*$amount[0]['rate'])/100;
+					$pay_amount=$principal*$num*$rate;
 					echo $pay_amount;	
 				}
 				else {
-					$pay_amount=($principal*$diff*$amount[0]['rate'])/100;
+					$diff=number_format($diff/365,2);
+					$rate=number_format($amount[0]['rate']/100,2);
+					$pay_amount=$principal*$diff*$rate;
 					echo $pay_amount;				
 				}
 			}
@@ -291,6 +310,7 @@ class borrower extends CI_Controller {
 
 	function save_installment() {
 		//dsm($this->input->post()); die;
+		die;
 		$this->load->model('borrower_model');
 		$borrower_id = $this->input->post('borrower_id');	
 		$loanid = $this->input->post('loanid');

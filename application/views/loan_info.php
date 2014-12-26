@@ -22,7 +22,7 @@
 						{
 					?>					
 					<tr>
-					  	<td><?php echo "L00".$row['loan_id']; ?></td>
+					  	<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo "L00".$row['loan_id']; ?></a></td>
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>
 					  	<td><?php echo $row['installment_duration']; ?></td>
@@ -52,31 +52,29 @@
 				<thead>
 					<tr>
 					  	<th>Loan Id</th>
-					  	<th>Borrower Id</th>
+					  	<th>Borrower</th>
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
 					  	<th>Start Date</th>
 					  	<th>Installment Duration(days)</th>
-					  	<th>Note</th>
 					  	<th>Status</th>		  			
 					</tr>
 				</thead>
 				<tbody>
 					<?php
 						if(empty($borrowerloan)):
-							echo "<tr><td colspan='8' align='center'>No Record Found!</td></tr>";
+							echo "<tr><td colspan='7' align='center'>No Record Found!</td></tr>";
 						else :
 						foreach ($borrowerloan as $bloan)
 						{
 					?>					
 					<tr>
-					  	<td><?php echo "L00".$bloan['loan_id'];?></td>
-					  	<td><?php echo "B00".$bloan['borrower_id'];?></td>
+					  	<td><a href="<?php echo base_url().'loan/view/'.$bloan['loan_id'];?>"><?php echo "L00".$bloan['loan_id'];?></a></td>
+					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$bloan['borrower_id'];?>"><?php echo $bloan['firstname'] ." ". $bloan['lastname'];?></a></b></td>
 					  	<td><?php echo $bloan['amount']; ?></td>
 					  	<td><?php echo $bloan['rate']; ?></td>
-					  	<td><?php echo $bloan['start_date']; ?></td>
+					  	<td><?php $date = date_create($bloan['start_date']); echo date_format($date,"d-m-Y");?></td>
 					  	<td><?php echo $bloan['installment_duration']; ?></td>
-					  	<td><?php echo $bloan['note']; ?></td>
 						<td>
 							<?php 
 								if($bloan['status']=="1") {
@@ -106,7 +104,7 @@
 				  <tr>
 				  	<th>Installment Id</th>
 				  	<th>Loan Id</th>
-				  	<th>Borrorwer Id</th>
+				  	<th>Borrorwer</th>
 				  	<th>Pay Amount</th>
 				  	<th>Paid Amount</th>
 				  	<th>Paid Date</th>
@@ -122,11 +120,11 @@
 					?>					
 					<tr>
 						<td><?php echo "I00".$insta['insta_id'];?></td>
-						<td><?php echo "L00".$insta['loan_id'];?></td>
-						<td><?php echo "B00".$insta['borrower_id'];?></td>
+						<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo "L00".$insta['loan_id'];?></a></td>
+						<td><b><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname'] ." ". $insta['lastname'];?></a></b></td>
 						<td><?php echo $insta['pay_amount'];?></td>
 						<td><?php echo $insta['paid_amount'];?></td>
-						<td><?php echo $insta['paid_date'];?></td>
+						<td><?php $date = date_create($insta['paid_date']); echo date_format($date,"d-m-Y");?></td>
 					</tr>
 				    <?php } endif; ?>	
 				</tbody>
@@ -146,7 +144,7 @@
 				    <th>Transaction Id</th>
 				  	<th>Installment Id</th>
 				  	<th>Loan Id</th>
-				  	<th>Borrorwer Id</th>
+				  	<th>Borrorwer</th>
 				  	<th>Amount</th>
 				  	<th>Final Amount</th>
 				  	<th>Reason</th>
@@ -163,8 +161,8 @@
 					<tr>
 					  	<td><?php echo "T00".$loanxn['lt_id'];?></td>
 					  	<td><?php echo "I00".$loanxn['insta_id'];?></td>
-					  	<td><?php echo "L00".$loanxn['loan_id'];?></td>
-					  	<td><?php echo "B00".$loanxn['borrower_id'];?></td>
+					  	<td><a href="<?php echo base_url().'loan/view/'.$loanxn['loan_id'];?>"><?php echo "L00".$loanxn['loan_id'];?></a></td>
+					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$loanxn['borrower_id'];?>"><?php echo $loanxn['firstname'] ." ". $loanxn['lastname'];?></a></b></td>
 					  	<td><?php echo $loanxn['amount'];?></td>
 					  	<td><?php echo $loanxn['final_amount'];?></td>
 					  	<td><?php echo $loanxn['reason'];?></td>

@@ -27,7 +27,21 @@
 							<label>Loan Id</label>
 							<?php 
 								$select_array_loan=$sel_loan;
-								echo generate_combobox('loanid',$select_array_loan,'loan_id','loan_id','','class="form-control" id="loan_id"');
+								$count=count($select_array_loan);
+								if($count=="1") {
+									$date = date_create($select_array_loan[0]['start_date']); 
+									$key=$select_array_loan[0]['amount']." for ".$select_array_loan[0]['rate']."% on ". date_format($date,"M-Y");
+									$select_array_loan[0]['key'] = $key;
+									echo generate_combobox('loanid',$select_array_loan,'loan_id','key',$select_array_loan[0]['loan_id'],'class="form-control" id="loan_id"');
+								}
+								else {
+									for($i=0;$i<$count;$i++) {
+									$date = date_create($select_array_loan[$i]['start_date']); 
+									$key=$select_array_loan[$i]['amount']." for ".$select_array_loan[$i]['rate']."% on ". date_format($date,"M-Y");
+									$select_array_loan[$i]['key'] = $key;
+									echo generate_combobox('loanid',$select_array_loan,'loan_id',$key,'','class="form-control" id="loan_id"');																		
+									}
+								}
 							?>
 						</div>
 						<div class="col-md-6">
@@ -91,6 +105,32 @@
 	});
 
 $(document).ready(function () {
+    var id =  $("#loan_id").val();
+    if(id!="") {
+        var date = $('#dp1').val();
+		  if($('#payoffno').is(':checked')) {
+		    var payoff = $('#payoffno').val();
+		  } else {
+		    var payoff = $('#payoffyes').val();
+		  }        
+        var data = { 'id': id , 'date': date, 'payoff': payoff };
+        $.ajax({
+            type: "post",
+            url: base_url+"borrower/get_amount",
+            data: data ,
+            dataType: 'json', 
+                success: function (loan_id) {
+                $('#pay_amount').val(loan_id);
+            }
+        });
+    }
+    else {
+    	alert("Please select Loan Id");
+    }
+});
+	
+
+$(document).ready(function () {
      $('input[name="payoff"]').click(function() {    	
         var id =  $("#loan_id").val();
         if(id!="") {
@@ -116,4 +156,40 @@ $(document).ready(function () {
 	    }
     });
 });	
+</script>
+<script type="text/javascript">
+$('input[name="submit"]').click(function() { 
+	var pay_amount=$('#pay_amount').val();
+	var paid_amount=$('#paid_amount').val();
+	if(pay_amount>paid_amount) {
+
+		alert("Please checked Pay amount for payoff");
+
+		$("#payoffno").prop("checked", true)
+	       var id =  $("#loan_id").val();
+	        if(id!="") {
+	        var date = $('#dp1').val();
+			  if($('#payoffno').is(':checked')) {
+			    var payoff = $('#payoffno').val();
+			  } else {
+			    var payoff = $('#payoffyes').val();
+			  }        
+	        var data = { 'id': id , 'date': date, 'payoff': payoff };
+	        $.ajax({
+	            type: "post",
+	            url: base_url+"borrower/get_amount",
+	            data: data ,
+	            dataType: 'json', 
+	                success: function (loan_id) {
+	                $('#pay_amount').val(loan_id);
+	            }
+	        });
+		    }
+		    else {
+		    	alert("Please select Loan Id");
+		    }	
+		 $('#paid_amount').val("");	
+		return false;
+	}
+});
 </script>

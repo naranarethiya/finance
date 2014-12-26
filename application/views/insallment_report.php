@@ -27,7 +27,7 @@
 				  	<td><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname']." ".$insta['lastname'];?></a></td>
 				  	<td><?php echo $insta['pay_amount'];?></td>
 				  	<td><?php echo $insta['paid_amount'];?></td>
-				  	<td><?php echo $insta['paid_date'];?></td>
+				  	<td><?php $date = date_create($insta['paid_date']); echo date_format($date,"d-m-Y");?></td>
 				</tr>
 				<?php } endif; ?>
 			</tbody>

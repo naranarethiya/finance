@@ -3,6 +3,8 @@
   <div class="panel-heading">
   	<a href="#" class="fa fa-fw fa-refresh" onclick="window.location.reload( true );" data-toggle="tooltip" data-placement="bottom" title="Refresh"></a>
   	<a href="#" class="fa fa-fw fa-filter" onclick="$(searchModal).modal('show');" data-toggle="tooltip" data-placement="bottom" title="Filter Data"></a>
+  	<a href="#" class="fa fa-fw fa-check" id="checkall" data-toggle="tooltip" data-placement="bottom" title="Select All"></a>  	
+	<a href="#" id="addloan" class="fa fa-fw fa-folder-open-o" data-toggle="tooltip" data-placement="bottom" title="Start Loan"></a>
   </div>  
   <div class="panel-body">
 	<div class="box">
@@ -10,6 +12,7 @@
 			<table id='tab1' class='table table-bordered table-striped'>
 				<thead>
 					<tr>
+						<th>Select</th>
 					  	<th>Loan Id</th>
 					  	<th>Borrower Name</th>
 					  	<th>Loan Amount</th>
@@ -27,8 +30,13 @@
 						{
 					?>					
 					<tr>
-					  	<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo "L00".$row['loan_id']; ?></a></td>
-					  	<td><?php echo $row['firstname'] ." " . $row['lastname']; ?></td>
+						<td>
+							<label>
+								<input type="checkbox"  id="checkID[]" name="checkID[]" value="<?php echo $row['borrower_id']; ?>" class="selectAll">
+							</label>				
+						</td>
+						<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo "L00".$row['loan_id']; ?></a></td>
+					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$row['borrower_id'];?>"><?php echo $row['firstname'] ." " . $row['lastname']; ?></a></b></td>
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>
 					  	<td><?php echo $row['installment_duration']; ?></td>
@@ -72,39 +80,46 @@
 
 			<div class="form-group">
 				<div class="col-md-6">
-				<label>Loan Id</label>
-				<input type="text" class="form-control" id="loan_id" name="loan_id" placeholder="Enter Loan Id without L00" />
+				<label>Borrower first Name</label>
+				<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter Borrower FirstName" />
 				</div>
+				<div class="col-md-6">
+				<label>Borrower last Name</label>
+				<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Borrower LastName" />
+				</div>				
+			</div>
+			<div class="form-group">
 				<div class="col-md-6">
 				<label>Loan Amount</label>
 				<input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Loan Amount" />
 				</div>
-			</div>
-			<div class="form-group">
 				<div class="col-md-6">
 				<label>Loan Rate</label>
 				<input type="text" class="form-control" id="rate" name="rate" placeholder="Enter Loan Rate" />
-				</div>
-				<div class="col-md-6">
-				<label>Loan Period</label>
-				<input type="text" class="form-control" id="period" name="period" placeholder="Enter Loan Period" />
-				</div>						
+				</div>					
             </div>
 			<div class="form-group">
 				<div class="col-md-6">
+				<label>Installment period</label>
+				<input type="text" class="form-control" id="period" name="period" placeholder="Enter Loan Period" />
+				</div>	
+				<div class="col-md-6">
 				<label>loan Start Date</label>
 				<input type="text" class="form-control" name="start_date" id="dp1" data-date-format="yyyy-mm-dd" placeholder="Click to select date">	
-				</div>				
+				</div>		
+			<div>
+			<div class="form-group">	
             	<div class="col-md-6">
             		<label>Status</label>
 					<select class="form-control" name="status">
+						<option value="all">All</option>
 						<option value="1">Active</option>
 						<option value="0">Disactive</option>
 					</select>        		
             	</div>
 			</div>
-			<div class="modal-footer"><br/>
-				<input type="submit" name="submit"  class="btn btn-primary" value="Search">
+			<div class="modal-footer">
+				<input type="submit" name="submit"  class="btn btn-primary" value="Search" style="margin-top:60px;">
 			</div>		        		
 		<?php
 			echo form_close();
@@ -114,5 +129,35 @@
   </div>
 </div>
 <script type="text/javascript">
+
 	$('#dp1').datepicker();
+	
+	$(document).ready(function(){
+	  $('#addloan').click(function () {
+		var slvals = []
+		$('input:checkbox[name^=checkID]:checked').each(function() {
+		slvals.push($(this).val())
+		})
+		id=slvals;
+		if(id.length>1 || id.length<1) {
+			alert ('Select 1 record at a time!');
+		}
+		else {
+			window.location=base_url+"loan/index/"+id;	
+		}
+	  });
+	});	
+
+	$(document).ready(function(){
+	$('#checkall').click(function(){
+			$('.selectAll').each(function(event) {
+				if(this.checked) {
+					this.checked = false;
+				}
+				else {       
+					this.checked = true;
+				}
+			});
+		});
+	});	
 </script>

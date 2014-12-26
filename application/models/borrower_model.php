@@ -53,8 +53,12 @@
 	  return $query->result_array();       
 	}	
 	function get_loan_byborrower($id){
-	  $query = $this->db->get_where('loan',array('borrower_id'=>$id));
-	  return $query->result_array();       
+		$this->db->select('loan.*, borrower.firstname, borrower.lastname');
+		$this->db->from('loan');
+		$this->db->join('borrower','loan.borrower_id=borrower.borrower_id');	
+		$this->db->where('borrower.borrower_id',$id);	
+	    $query = $this->db->get();		
+	  	return $query->result_array();       
 	}	
 	function get_activeloan_byborrower($id){
 	  $query = $this->db->get_where('loan',array('borrower_id'=>$id, 'status'=>'1'));
@@ -89,14 +93,20 @@
 	}
 
 	function get_installment($id){
-		$this->db->select('*');
-		$this->db->from('installment',array('borrower_id'=>$id));
+		$this->db->select('installment.*, borrower.firstname, borrower.lastname');
+		$this->db->from('installment');
+		$this->db->join('borrower','installment.borrower_id=borrower.borrower_id');	
+		$this->db->where('borrower.borrower_id',$id);	
 	  	$query = $this->db->get();
 	 	return $query->result_array();       
 	}
 	function get_transaction_byloan($id){
-	  $query = $this->db->get_where('loan_transaction',array('borrower_id'=>$id));
-	  return $query->result_array();       
+		$this->db->select('loan_transaction.*, borrower.firstname, borrower.lastname');
+		$this->db->from('loan_transaction');
+		$this->db->join('borrower','loan_transaction.borrower_id=borrower.borrower_id');	
+		$this->db->where('borrower.borrower_id',$id);		
+	  	$query = $this->db->get();
+	  	return $query->result_array();       
 	}
 
 	function get_loan_date($id) {

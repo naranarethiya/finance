@@ -3,7 +3,7 @@
   <div class="panel-heading">
   	<a href="#" class="fa fa-fw fa-refresh" onclick="window.location.reload( true );" data-toggle="tooltip" data-placement="bottom" title="Refresh"></a>
   	<a href="#" class="fa fa-fw fa-filter" onclick="$(searchModal).modal('show');" data-toggle="tooltip" data-placement="bottom" title="Filter Data"></a>
-  	<a href="#" class="fa fa-fw fa-check" id="checkall" data-toggle="tooltip" data-placement="bottom" title="Select"></a>  	
+  	<a href="#" class="fa fa-fw fa-check" id="checkall" data-toggle="tooltip" data-placement="bottom" title="Select All"></a>  	
   	<a href="<?php echo base_url().'borrower/add'; ?>" class="fa fa-fw fa-plus" data-toggle="tooltip" data-placement="bottom" title="Add New Borrower"></a>
   	<a href="#" id="editborrower" class="fa fa-fw fa-edit" data-toggle="tooltip" data-placement="bottom" title="Edit Borrower"></a>
   	<a href="#"  id="deleteall" class="fa fa-fw fa-trash-o" data-toggle="tooltip" data-placement="bottom" title="Delete Borrower"></a>
@@ -17,22 +17,19 @@
 				<thead>
 					<tr>
 						<th>Select</th>
-					  	<th>Borrower Id</th>
-					  	<th>First Name</th>
-					  	<th>Last Name</th>
-					  	<th>Date of birth</th>
+					  	<th>Borrower Name</th>
 					  	<th>Mobile</th>
 					  	<th>Email</th>
-					  	<th>Address</th>
+					  	<th>Date of birth</th>
 					  	<th>City</th>
-					  	<th>Gender</th>	
+					  	<th>Address</th>
 					  	<th>Status</th>		  			
 					</tr>
 				</thead>
 				<tbody>
 					<?php
 						if(!isset($borrower)):
-							echo "<tr><td colspan='11' align='center'>No Record Found!</td></tr>";
+							echo "<tr><td colspan='8' align='center'>No Record Found!</td></tr>";
 						else :
 						foreach ($borrower as $row)
 						{
@@ -43,15 +40,12 @@
 								<input type="checkbox"  id="checkID[]" name="checkID[]" value="<?php echo $row['borrower_id']; ?>" class="selectAll">
 							</label>				
 						</td>
-					  	<td><?php echo "B00".$row['borrower_id']; ?></td>
-					  	<td><a href="<?php echo base_url().'borrower/index/'.$row['borrower_id'];?>"><?php echo $row['firstname']; ?></a></td>
-					  	<td><?php echo $row['lastname']; ?></td>
-					  	<td><?php echo $row['dob']; ?></td>
+					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$row['borrower_id'];?>"><?php echo $row['firstname']." ".$row['lastname']; ?></a></b></td>
 					  	<td><?php echo $row['mobile']; ?></td>
 					  	<td><?php echo $row['email']; ?></td>
-					  	<td><?php echo $row['address']; ?></td>
+					  	<td><?php $date = date_create($row['dob']); echo date_format($date,"d-m-Y");?></td>
 					  	<td><?php echo $row['city']; ?></td>
-					  	<td><?php echo $row['gender']; ?></td>
+					  	<td><?php echo $row['address']; ?></td>
 						<td>
 							<?php 
 								if($row['deleted_at']=="") {
