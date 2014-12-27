@@ -78,7 +78,7 @@
 					<div class="form-group">
 						<div class="col-md-6">
 						<label>Borrower Address</label>
-						<textarea class="form-control" id="address" name="address" placeholder="Enter Borrower Address"></textarea>
+						<textarea class="form-control" id="address" name="address" placeholder="Enter Borrower Address" required></textarea>
 						</div>
 						<div class="col-md-6">
 						<label>Note</label>

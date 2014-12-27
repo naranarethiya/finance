@@ -117,10 +117,14 @@
                     <input type="radio" name="gender" id="gender" value="female">
                     Female                   
                 </label>
+				 <label class="radio-inline">
+                    <input type="radio" name="gender" id="gender" checked value=""/> All  
+                </label>
             	</div>
             	<div class="col-md-6">
             		<label>Status</label>
 					<select class="form-control" name="status">
+						<option value="">All</option>
 						<option value="1">Active</option>
 						<option value="0">Disactive</option>
 					</select>        		
