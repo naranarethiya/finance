@@ -196,7 +196,6 @@ class borrower extends CI_Controller {
 	function search() {
 		
 		$firstname = $this->input->post('firstname');
-		$lastname = $this->input->post('lastname');
 		$mobile = $this->input->post('mobile');
 		$city = $this->input->post('city');	
 		$gender = $this->input->post('gender');
