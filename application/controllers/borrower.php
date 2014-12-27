@@ -204,7 +204,7 @@ class borrower extends CI_Controller {
 		$this->load->helper('form');
 		$data['pageTitle']="Borrower Information";
 		$this->load->model('borrower_model');
-		$data['borrower']=$this->borrower_model->get_search_borrower($firstname,$lastname,$mobile,$city,$gender,$status);			
+		$data['borrower']=$this->borrower_model->get_search_borrower($firstname,$mobile,$city,$gender,$status);
 		$data['contant']=$this->load->view('borrower_info',$data,true);
 		$this->load->view('master',$data);		
 	}
@@ -310,7 +310,6 @@ class borrower extends CI_Controller {
 	}
 
 	function save_installment() {
-		//dsm($this->input->post()); die;
 		$this->load->model('borrower_model');
 		$borrower_id = $this->input->post('borrower_id');	
 		$loanid = $this->input->post('loanid');

@@ -17,29 +17,31 @@
 	  return $query->result_array();       
 	}	
 
-	function get_search_borrower($firstname,$lastname,$mobile,$city,$gender,$status) {
-		if($firstname=="" && $lastname == "" && $mobile=="" && $city=="" && $gender=="" && $status=="") {
-			$where = "SELECT * FROM borrower";
-			$rs=$this->db->query($where);
-			return $rs->result_array();		
+	function get_search_borrower($firstname,$mobile,$city,$gender,$status) {
+		if($firstname!='') {
+			$this->db->like("borrower.firstname",$firstname);
+			$this->db->or_like("borrower.lastname",$firstname);
+ 		}
+ 		if($mobile!='') {
+			$this->db->where("borrower.mobile",$mobile);
 		}
-		else {
-			if($status=="0") {
-				$where = "SELECT * FROM borrower WHERE firstname='".$firstname."' OR lastname='".$lastname."' OR mobile='".$mobile."' OR city='".$city."' OR gender='".$gender."' OR deleted_at IS NOT NULL";
-				$rs=$this->db->query($where);
-				return $rs->result_array();
-			}
-			elseif($status=="1") {
-				$where = "SELECT * FROM borrower WHERE firstname='".$firstname."' OR lastname='".$lastname."' OR mobile='".$mobile."' OR city='".$city."' OR gender='".$gender."' OR deleted_at IS NULL";
-				$rs=$this->db->query($where);
-				return $rs->result_array();				
-			}
-			elseif($status=="all") {
-				$where = "SELECT * FROM borrower WHERE firstname='".$firstname."' OR lastname='".$lastname."' OR mobile='".$mobile."' OR city='".$city."' OR gender='".$gender."' OR deleted_at IS NULL OR deleted_at IS NOT NULL";
-				$rs=$this->db->query($where);
-				return $rs->result_array();				
-			}			
-		}		
+		
+		if($city!='') {
+			$this->db->where("borrower.city",$city);
+		}
+		
+		if($gender!='') {
+			$this->db->where("borrower.gender",$gender);
+		}
+		
+		if($status!='') {
+			$this->db->where("loan.status",$status);
+		}
+		
+		$this->db->join("loan","loan.borrower_id=borrower.borrower_id",'left');
+		
+		$rs=$this->db->get("borrower");
+		return $rs->result_array();
 	}
 	
 	function update_borrower($data, $borrower_id){
