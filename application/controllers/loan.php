@@ -72,10 +72,7 @@ class loan extends CI_Controller {
 		// Validating Mobile no. Field
 		$this->form_validation->set_rules('installment_duration', 'Installment Duration', 'required|numeric');
 		$this->form_validation->set_rules('duration_in_month', 'Installment Duration in Month', 'required|numeric');
-		// Validating Address Field
-		$this->form_validation->set_rules('note', 'Note', 'required|min_length[1]|max_length[50]');
 		if ($this->form_validation->run() == FALSE) {
-			echo validation_errors(); die;
 			redirect(base_url().'loan_info');
 		}
 		else {

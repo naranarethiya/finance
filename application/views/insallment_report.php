@@ -6,8 +6,8 @@
 			<thead>
 			  <tr>
 			  	<th>Installment Id</th>
-			  	<th>Loan Id</th>
-			  	<th>Borrorwer Name</th>
+			  	<th>Loan</th>
+			  	<th>Borrorwer</th>
 			  	<th>Pay Amount</th>
 			  	<th>Paid Amount</th>
 			  	<th>Paid Date</th>
@@ -20,8 +20,16 @@
 					else :
 					foreach ($installment as $insta)
 					{
+						if($insta['pay_amount'] > $insta['paid_amount']) {
+							echo "<tr class='danger'>";
+						}
+						else if($insta['pay_amount'] < $insta['paid_amount']) {
+							echo "<tr class='success'>";
+						}
+						else {
+							echo "<tr>";
+						}							
 				?>
-				<tr>
 				  	<td><?php echo "I00".$insta['insta_id'];?></td>
 				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo $insta['amount'] ." for ". $insta['rate'] ."% on ".$insta['start_date'];?></a></td>
 				  	<td><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname']." ".$insta['lastname'];?></a></td>

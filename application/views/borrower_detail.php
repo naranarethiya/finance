@@ -50,7 +50,7 @@
 			<table id='tab1' class='table table-bordered table-striped'>
 				<thead>
 					<tr>
-					  	<th>Loan Id</th>
+					  	<th>Loan</th>
 					  	<th>Borrorwer</th>
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
@@ -69,7 +69,7 @@
 						{
 					?>					
 					<tr>
-					  	<td><a href="<?php echo base_url().'loan/view/'.$tloan['loan_id'];?>"><?php echo "L00".$tloan['loan_id']; ?></a></td>
+					  	<td><a href="<?php echo base_url().'loan/view/'.$tloan['loan_id'];?>"><?php echo $tloan['loanname']; ?></a></td>
 					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$tloan['borrower_id'];?>"><?php echo $tloan['firstname'] ." " . $tloan['lastname']; ?></a></b></td>
 					  	<td><?php echo $tloan['amount']; ?></td>
 					  	<td><?php echo $tloan['rate']; ?></td>
@@ -104,7 +104,7 @@
 				<thead>
 					<tr>
 					  	<th>Installment Id</th>
-					  	<th>Loan Id</th>
+					  	<th>Loan</th>
 					  	<th>Borrorwer</th>
 					  	<th>Pay Amount</th>
 					  	<th>Paid Amount</th>
@@ -118,10 +118,18 @@
 					else :
 					foreach ($installment as $insta)
 					{
+						if($insta['pay_amount'] > $insta['paid_amount']) {
+							echo "<tr class='danger'>";
+						}
+						else if($insta['pay_amount'] < $insta['paid_amount']) {
+							echo "<tr class='success'>";
+						}
+						else {
+							echo "<tr>";
+						}						
 				?>
-				<tr>
 				  	<td><?php echo "I00".$insta['insta_id'];?></td>
-				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo "L00".$insta['loan_id']; ?></a></td>
+				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo $insta['loanname']; ?></a></td>
 				  	<td><b><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname'] ." " . $insta['lastname']; ?></a></b></td>
 				  	<td><?php echo $insta['pay_amount'];?></td>
 				  	<td><?php echo $insta['paid_amount'];?></td>
@@ -144,7 +152,7 @@
 					<tr>
 					    <th>Transaction Id</th>
 					  	<th>Installment Id</th>
-					  	<th>Loan Id</th>
+					  	<th>Loan</th>
 					  	<th>Borrorwer</th>
 					  	<th>Amount</th>
 					  	<th>Final Amount</th>
@@ -163,7 +171,7 @@
 					<tr>
 					  	<td><?php echo "T00".$loanxn['lt_id'];?></td>
 					  	<td><?php echo "I00".$loanxn['insta_id'];?></td>
-					  	<td><a href="<?php echo base_url().'loan/view/'.$loanxn['loan_id'];?>"><?php echo "L00".$loanxn['loan_id']; ?></a></td>
+					  	<td><a href="<?php echo base_url().'loan/view/'.$loanxn['loan_id'];?>"><?php echo $loanxn['loanname']; ?></a></td>
 					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$loanxn['borrower_id'];?>"><?php echo $loanxn['firstname'] ." " . $loanxn['lastname']; ?></a></b></td>
 					  	<td><?php echo $loanxn['amount'];?></td>
 					  	<td><?php echo $loanxn['final_amount'];?></td>

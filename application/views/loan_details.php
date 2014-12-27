@@ -13,7 +13,7 @@
 				<thead>
 					<tr>
 						<th>Select</th>
-					  	<th>Loan Id</th>
+					  	<th>Loan</th>
 					  	<th>Borrower Name</th>
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
@@ -36,7 +36,7 @@
 								<input type="checkbox"  id="checkID[]" name="checkID[]" value="<?php echo $row['borrower_id']; ?>" class="selectAll">
 							</label>				
 						</td>
-						<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo "L00".$row['loan_id']; ?></a></td>
+						<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo $row['loanname']; ?></a></td>
 					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$row['borrower_id'];?>"><?php echo $row['firstname'] ." " . $row['lastname']; ?></a></b></td>
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>

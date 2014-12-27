@@ -251,13 +251,13 @@ class borrower extends CI_Controller {
 			if($payoff=="1") {
 				if ($diff<=$num) {
 					$num=number_format($num/365,2);
-					$rate=number_format($amount[0]['rate']/100,2);
+					$rate=number_format(($amount[0]['rate']*12)/100,2);
 					$pay_amount=$principal+($principal*$num*$rate);
 					echo $pay_amount;
 				}
 				else {
 					$diff=number_format($diff/365,2);
-					$rate=number_format($amount[0]['rate']/100,2);
+					$rate=number_format(($amount[0]['rate']*12)/100,2);
 					$pay_amount=$principal+($principal*$diff*$rate);
 					echo $pay_amount;
 				}
@@ -265,13 +265,13 @@ class borrower extends CI_Controller {
 			else {
 				if ($diff<=$num) {
 					$num=number_format($num/365,2);
-					$rate=number_format($amount[0]['rate']/100,2);
+					$rate=number_format(($amount[0]['rate']*12)/100,2);
 					$pay_amount=$principal*$num*$rate;
 					echo $pay_amount;
 				}
 				else {
 					$diff=number_format($diff/365,2);
-					$rate=number_format($amount[0]['rate']/100,2);
+					$rate=number_format(($amount[0]['rate']*12)/100,2);
 					$pay_amount=$principal*$diff*$rate;
 					echo $pay_amount;
 				}					
@@ -285,7 +285,7 @@ class borrower extends CI_Controller {
 			$diff=$interval->format('%a');
 			if($payoff=="1") {
 				$diff=number_format($diff/365,2);
-				$rate=number_format($amount[0]['rate']/100,2);
+				$rate=number_format(($amount[0]['rate']*12)/100,2);
 				$pay_amount=$principal+($principal*$diff*$rate);
 				echo $pay_amount;
 			}    
@@ -293,14 +293,14 @@ class borrower extends CI_Controller {
 				$datearr=explode('-', $date);
 				$num = cal_days_in_month(CAL_GREGORIAN, $datearr[1], $datearr[0]);
 				$num=number_format($num/365,2);
-				$rate=number_format($amount[0]['rate']/100,2);				
+				$rate=number_format(($amount[0]['rate']*12)/100,2);				
 				if($diff<=$num) {
 					$pay_amount=$principal*$num*$rate;
 					echo $pay_amount;	
 				}
 				else {
 					$diff=number_format($diff/365,2);
-					$rate=number_format($amount[0]['rate']/100,2);
+					$rate=number_format(($amount[0]['rate']*12)/100,2);
 					$pay_amount=$principal*$diff*$rate;
 					echo $pay_amount;				
 				}

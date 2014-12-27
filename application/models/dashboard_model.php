@@ -46,5 +46,15 @@
 		$query=$this->db->query($sql);
 		return $query->result_array();		
 	}
+	function get_date($id) {
+		$sql="SELECT * FROM installment WHERE loan_id='".$id."'";
+		$query=$this->db->query($sql);
+		return $query->result_array();		
+	}
+	function check_date($id) {
+		$sql="SELECT * FROM installment WHERE loan_id='".$id."'";
+		$query=$this->db->query($sql);
+		return $query->num_rows();		
+	}	
 }
 ?>
