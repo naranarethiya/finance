@@ -121,6 +121,7 @@
             	<div class="col-md-6">
             		<label>Status</label>
 					<select class="form-control" name="status">
+						<option value="all">All</option>
 						<option value="1">Active</option>
 						<option value="0">Disactive</option>
 					</select>        		

@@ -29,11 +29,16 @@
 				$rs=$this->db->query($where);
 				return $rs->result_array();
 			}
-			else {
+			elseif($status=="1") {
 				$where = "SELECT * FROM borrower WHERE firstname='".$firstname."' OR lastname='".$lastname."' OR mobile='".$mobile."' OR city='".$city."' OR gender='".$gender."' OR deleted_at IS NULL";
 				$rs=$this->db->query($where);
 				return $rs->result_array();				
 			}
+			elseif($status=="all") {
+				$where = "SELECT * FROM borrower WHERE firstname='".$firstname."' OR lastname='".$lastname."' OR mobile='".$mobile."' OR city='".$city."' OR gender='".$gender."' OR deleted_at IS NULL OR deleted_at IS NOT NULL";
+				$rs=$this->db->query($where);
+				return $rs->result_array();				
+			}			
 		}		
 	}
 	
@@ -118,5 +123,27 @@
 	  $query = $this->db->get_where('installment',array('loan_id'=>$id));
 	  return $query->result_array();		
 	}	
+
+	function get_installment_last($id) {
+		$this->db->select('installment.*, borrower.*');
+		$this->db->from('installment');
+		$this->db->join('borrower','installment.borrower_id=borrower.borrower_id');	
+		$this->db->join('loan','installment.loan_id=loan.loan_id');	
+		$this->db->where('borrower.borrower_id',$id);
+		$this->db->order_by('installment.insta_id','desc');
+		$this->db->limit(10);			
+	  	$query = $this->db->get();
+	 	return $query->result_array();		
+	}
+
+	function get_loan($id) {
+		$this->db->select('loan.*, borrower.firstname, borrower.lastname');
+		$this->db->from('loan');
+		$this->db->join('borrower','loan.borrower_id=borrower.borrower_id');
+		$this->db->where('loan.borrower_id',$id);
+ 		$this->db->order_by('loan.borrower_id','ASC');
+		$rs=$this->db->get();
+		return $rs->result_array();	 		
+	}
 }
 ?>
