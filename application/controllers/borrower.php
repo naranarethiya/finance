@@ -217,6 +217,8 @@ class borrower extends CI_Controller {
 			$cssurl=base_url().'public/datepicker/datepicker.css';
 			$data['loadCss']=array($cssurl);
 			$this->load->model('borrower_model');
+			$data['installment']=$this->borrower_model->get_installment_last($id);
+			$data['loan']=$this->borrower_model->get_loan($id);	
 			$data['borrower']=$this->borrower_model->get_borrower($id);
 			$data['sel_loan']=$this->borrower_model->get_activeloan_byborrower($id);
 		    $data['contant']=$this->load->view('installment',$data,true);
@@ -231,7 +233,6 @@ class borrower extends CI_Controller {
 		$this->load->model('borrower_model');
 		$amount=$this->borrower_model->get_loan_amount($id);
 		$chkamount=$this->borrower_model->get_loan_amount_loantxn($id);
-
 		if($chkamount == "0") {
 			$principal=$amount[0]['amount'];
 		}
@@ -310,7 +311,6 @@ class borrower extends CI_Controller {
 
 	function save_installment() {
 		//dsm($this->input->post()); die;
-		die;
 		$this->load->model('borrower_model');
 		$borrower_id = $this->input->post('borrower_id');	
 		$loanid = $this->input->post('loanid');
@@ -318,12 +318,14 @@ class borrower extends CI_Controller {
 		$paid_amount = $this->input->post('paid_amount');
 		$paid_date = $this->input->post('paid_date');
 		$payoff = $this->input->post('payoff');
+		$note = $this->input->post('note');
 		$data = array(
 			'borrower_id'=>$borrower_id,
 			'loan_id'=>$loanid,
 			'pay_amount'=>$pay_amount,
 			'paid_amount'=>$paid_amount,
 			'paid_date'=>$paid_date,
+			'note'=>$note,
 			'payoff'=>$payoff		
 		);
 		
