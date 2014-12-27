@@ -4,7 +4,7 @@
   	<a href="#" class="fa fa-fw fa-refresh" onclick="window.location.reload( true );" data-toggle="tooltip" data-placement="bottom" title="Refresh"></a>
   	<a href="#" class="fa fa-fw fa-filter" onclick="$(searchModal).modal('show');" data-toggle="tooltip" data-placement="bottom" title="Filter Data"></a>
   	<a href="#" class="fa fa-fw fa-check" id="checkall" data-toggle="tooltip" data-placement="bottom" title="Select All"></a>  	
-	<a href="#" id="addloan" class="fa fa-fw fa-folder-open-o" data-toggle="tooltip" data-placement="bottom" title="Start Loan"></a>
+	<a href="#" id="loaninsta" class="fa fa-fw fa-money" data-toggle="tooltip" data-placement="bottom" title="Pay Loan Installment"></a>
   </div>  
   <div class="panel-body">
 	<div class="box">
@@ -18,6 +18,7 @@
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
 					  	<th>Installment Duration</th>
+					  	<th>Payoff date</th>
 					  	<th>Status</th>		  			
 					</tr>
 				</thead>
@@ -40,6 +41,7 @@
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>
 					  	<td><?php echo $row['installment_duration']; ?></td>
+					  	<td><?php echo $row['payoff_date']; ?></td>
 						<td>
 							<?php 
 								if($row['status']=="1") {
@@ -131,9 +133,9 @@
 <script type="text/javascript">
 
 	$('#dp1').datepicker();
-	
+
 	$(document).ready(function(){
-	  $('#addloan').click(function () {
+	  $('#loaninsta').click(function () {
 		var slvals = []
 		$('input:checkbox[name^=checkID]:checked').each(function() {
 		slvals.push($(this).val())
@@ -143,10 +145,10 @@
 			alert ('Select 1 record at a time!');
 		}
 		else {
-			window.location=base_url+"loan/index/"+id;	
+			window.location=base_url+"borrower/payinstallment/"+id;	
 		}
 	  });
-	});	
+	});
 
 	$(document).ready(function(){
 	$('#checkall').click(function(){

@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading"><h3>Borrower Information</h3></div>
+  <div class="panel-heading"><h3><?php echo $borrower[0]['firstname'] ." " . $borrower[0]['lastname']; ?></h3></div>
   <div class="panel-heading">
   	<a href="#" class="fa fa-fw fa-refresh" onclick="window.location.reload( true );" data-toggle="tooltip" data-placement="bottom" title="Refresh"></a>
   	<a href="<?php echo base_url().'borrower/edit/'.$borrower[0]['borrower_id']; ?>" class="fa fa-fw fa-edit" data-toggle="tooltip" data-placement="bottom" title="Edit Borrower"></a>
@@ -18,7 +18,6 @@
 					  	<th>Email</th>
 					  	<th>Address</th>
 					  	<th>City</th>
-					  	<th>Gender</th>						  			
 					</tr>
 				</thead>
 				<tbody>
@@ -36,7 +35,6 @@
 					  	<td><?php echo $row['email']; ?></td>
 					  	<td><?php echo $row['address']; ?></td>
 					  	<td><?php echo $row['city']; ?></td>
-					  	<td><?php echo $row['gender']; ?></td>				  	
 					</tr>		
 					<?php } endif; ?>
 				</tbody>
@@ -58,7 +56,7 @@
 					  	<th>Rate</th>
 					  	<th>Start Date</th>
 					  	<th>Installment Duration(days)</th>
-					  	<th>Note</th>
+					  	<th>Payoff date</th>
 					  	<th>Status</th>
 					</tr>
 				</thead>
@@ -77,7 +75,7 @@
 					  	<td><?php echo $tloan['rate']; ?></td>
 					  	<td><?php $date = date_create($tloan['start_date']); echo date_format($date,"d-m-Y"); ?></td>
 					  	<td><?php echo $tloan['installment_duration']; ?></td>
-					  	<td><?php echo $tloan['note']; ?></td>
+						<td><?php echo $tloan['payoff_date']; ?></td>
 						<td>
 							<?php 
 								if($tloan['status']=="1") {
@@ -150,6 +148,7 @@
 					  	<th>Borrorwer</th>
 					  	<th>Amount</th>
 					  	<th>Final Amount</th>
+					  	<th>Loan Amount</th>
 					  	<th>Reason</th>
 					</tr>
 				</thead>
@@ -168,6 +167,7 @@
 					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$loanxn['borrower_id'];?>"><?php echo $loanxn['firstname'] ." " . $loanxn['lastname']; ?></a></b></td>
 					  	<td><?php echo $loanxn['amount'];?></td>
 					  	<td><?php echo $loanxn['final_amount'];?></td>
+					  	<td><?php echo $loanxn['loan_amount'];?></td>
 					  	<td><?php echo $loanxn['reason'];?></td>
 					</tr>
 					<?php } endif; ?>

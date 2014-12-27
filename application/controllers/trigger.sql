@@ -18,12 +18,12 @@ FOR EACH ROW BEGIN
 		SET payoff="Installment";
 		SET final_amount=loan_amount+(pay_amount-paid_amount);
 		
-		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,payoff);
+		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `loan_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,loan_amount,payoff);
 	
 	ELSEIF(pay_amount <= paid_amount) THEN
 		SET user_amount=pay_amount;
 
-		IF(user_amount = paid_amount && NEW.payoff = "1") THEN
+		IF(user_amount = paid_amount  && NEW.payoff = "1") THEN
 			SET payoff="Payoff";
 			SET final_amount=0;
 		ELSE
@@ -31,10 +31,10 @@ FOR EACH ROW BEGIN
 			SET final_amount=loan_amount-(paid_amount-pay_amount);
 	    END IF;
 		IF(payoff = "Payoff") THEN
-		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,payoff);
+		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `loan_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,loan_amount,payoff);
 		update loan set `status`=0 where loan_id = NEW.loan_id; 		
 		ELSE
-		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,payoff);
+		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `loan_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,loan_amount,payoff);
 		END IF;
 	END IF;
 END $$

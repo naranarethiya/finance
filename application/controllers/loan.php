@@ -71,6 +71,7 @@ class loan extends CI_Controller {
 		$this->form_validation->set_rules('rate', 'Rate', 'required|numeric');
 		// Validating Mobile no. Field
 		$this->form_validation->set_rules('installment_duration', 'Installment Duration', 'required|numeric');
+		$this->form_validation->set_rules('duration_in_month', 'Installment Duration in Month', 'required|numeric');
 		// Validating Address Field
 		$this->form_validation->set_rules('note', 'Note', 'required|min_length[1]|max_length[50]');
 		if ($this->form_validation->run() == FALSE) {
@@ -86,8 +87,10 @@ class loan extends CI_Controller {
 			$start_date = $this->input->post('start_date');
 			$payoff_date = $this->input->post('payoff_date');		
 			$installment_duration = $this->input->post('installment_duration');
+			$duration_in_month = $this->input->post('duration_in_month');
 			$note = $this->input->post('note');
 			$status="1";
+			$loanname=$amount." for ".$rate."% on ". date_format($start_date,"M-Y");
 			$created_at = date('Y-m-d h:i:s');
 			$data = array(
 				'borrower_id'=>$borrower_id,
@@ -96,8 +99,10 @@ class loan extends CI_Controller {
 				'start_date'=>$start_date,
 				'payoff_date'=>$payoff_date,
 				'installment_duration'=>$installment_duration,
+				'duration_in_month'=>$duration_in_month,
 				'note'=>$note,
 				'status'=>$status,
+				'loanname'=>$loanname,
 				'created_at'=>$created_at		
 			);
 			

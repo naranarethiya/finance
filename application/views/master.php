@@ -12,11 +12,9 @@
 			<div class="row">
 				<?php echo validation_errors(); ?>
 			</div>
-			<div class="row">
-				<?php
-					$this->load->view("show_msg");
-				?>
-			</div>
+			<?php
+				$this->load->view("show_msg");
+			?>
 			<section class="content">
 				<?php echo $contant; ?>
 			</section>

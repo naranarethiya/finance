@@ -1,15 +1,20 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h3>Loan Information</h3></div>
+  <div class="panel-heading">
+	<a href="#" id="loaninsta" class="fa fa-fw fa-money" data-toggle="tooltip" data-placement="bottom" title="Pay Loan Installment"></a>
+  </div>    
   <div class="panel-body">
 	<div class="box">
 	    <div class="box-body table-responsive">
 			<table id='tab1' class='table table-bordered table-striped'>
 				<thead>
 					<tr>
+						<th>Select</th>
 					  	<th>Loan Id</th>
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
 					  	<th>Installment Duration(days)</th>
+					  	<th>Payoff date</th>
 					  	<th>Status</th>		  			
 					</tr>
 				</thead>
@@ -22,10 +27,16 @@
 						{
 					?>					
 					<tr>
+						<td>
+							<label>
+								<input type="checkbox"  id="checkID[]" name="checkID[]" value="<?php echo $row['borrower_id']; ?>" class="selectAll">
+							</label>				
+						</td>
 					  	<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo "L00".$row['loan_id']; ?></a></td>
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>
 					  	<td><?php echo $row['installment_duration']; ?></td>
+					  	<td><?php echo $row['payoff_date']; ?></td>
 						<td>
 							<?php 
 								if($row['status']=="1") {
@@ -147,6 +158,7 @@
 				  	<th>Borrorwer</th>
 				  	<th>Amount</th>
 				  	<th>Final Amount</th>
+				  	<th>Loan Amount</th>
 				  	<th>Reason</th>
 				  </tr>
 				</thead>
@@ -165,6 +177,7 @@
 					  	<td><b><a href="<?php echo base_url().'borrower/index/'.$loanxn['borrower_id'];?>"><?php echo $loanxn['firstname'] ." ". $loanxn['lastname'];?></a></b></td>
 					  	<td><?php echo $loanxn['amount'];?></td>
 					  	<td><?php echo $loanxn['final_amount'];?></td>
+					  	<td><?php echo $loanxn['loan_amount'];?></td>
 					  	<td><?php echo $loanxn['reason'];?></td>
 					</tr>
 					<?php } endif; ?>
@@ -175,3 +188,34 @@
 	<!-- /.loan transaction list-->	
   </div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $('#loaninsta').click(function () {
+		var slvals = []
+		$('input:checkbox[name^=checkID]:checked').each(function() {
+		slvals.push($(this).val())
+		})
+		id=slvals;
+		if(id.length>1 || id.length<1) {
+			alert ('Select 1 record at a time!');
+		}
+		else {
+			window.location=base_url+"borrower/payinstallment/"+id;	
+		}
+	  });
+	});
+
+	$(document).ready(function(){
+	$('#checkall').click(function(){
+			$('.selectAll').each(function(event) {
+				if(this.checked) {
+					this.checked = false;
+				}
+				else {       
+					this.checked = true;
+				}
+			});
+		});
+	});	
+</script>

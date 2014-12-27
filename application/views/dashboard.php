@@ -1,8 +1,76 @@
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+	google.setOnLoadCallback(drawChart);
+	function drawChart() {
+
+	  var data = google.visualization.arrayToDataTable([
+	    ['Week', 'Amount'],
+	   	<?php
+	   		$i=1;
+	   		foreach($totalloan as $row) {
+   				echo "['".$i."',".$row['total']."],";
+	   			$i++;
+	   		}
+	   	?>
+	  ]);
+
+	  var options = {
+	    title: 'Total Loan',
+	    hAxis: {title: 'Week', titleTextStyle: {color: 'red'}}
+	  };
+
+	  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+	  chart.draw(data, options);
+
+	}
+</script>
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+	google.setOnLoadCallback(drawChart);
+	function drawChart() {
+
+	  var data = google.visualization.arrayToDataTable([
+	    ['Week', 'Installment'],
+	   	<?php
+	   		$i=1;
+	   		foreach($totalinsta as $row) {
+   				echo "['".$i."',".$row['totalinsta']."],";
+	   			$i++;
+	   		}
+	   	?>
+	  ]);
+
+	  var options = {
+	    title: 'Total Installment',
+	    hAxis: {title: 'Week', titleTextStyle: {color: 'red'}}
+	  };
+
+	  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+
+	  chart.draw(data, options);
+
+	}
+</script>
+<div class="box">
+	<table width="100%"> 
+		<tr>
+			<td width="50%" style="border-right:1px solid;">
+				<div id="chart_div" style="width:400px; height: 200px;"></div>
+			</td>
+			<td width="50%">
+				<div id="chart_div1" style="width: 400px; height: 200px;"></div>	
+			</td>
+		</tr>
+	</table>
+		
+		
+</div>
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Last 10 Transactions</h3>
     </div><!-- /.box-header -->
-    <div class="box-body table-responsive">
+    <div class="box-body table-responsive">  	
 		<table id='tab1' class='table table-bordered table-striped'>
 			<thead>
 			  <tr>
@@ -50,6 +118,7 @@
 					  	<th>Rate</th>
 					  	<th>Start Date</th>
 					  	<th>Installment Duration(days)</th>
+					  	<th>Payoff date</th>
 					  	<th>Status</th>		  			
 					</tr>
 				</thead>
@@ -68,6 +137,7 @@
 					  	<td><?php echo $bloan['rate']; ?></td>
 					  	<td><?php $date = date_create($bloan['start_date']); echo date_format($date,"d-m-Y");?></td>
 					  	<td><?php echo $bloan['installment_duration']; ?></td>
+					  	<td><?php echo $bloan['payoff_date']; ?></td>
 						<td>
 							<?php 
 								if($bloan['status']=="1") {

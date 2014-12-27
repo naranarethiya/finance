@@ -23,7 +23,7 @@
 				?>
 				<tr>
 				  	<td><?php echo "I00".$insta['insta_id'];?></td>
-				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo "L00".$insta['loan_id'];?></a></td>
+				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo $insta['amount'] ." for ". $insta['rate'] ."% on ".$insta['start_date'];?></a></td>
 				  	<td><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname']." ".$insta['lastname'];?></a></td>
 				  	<td><?php echo $insta['pay_amount'];?></td>
 				  	<td><?php echo $insta['paid_amount'];?></td>

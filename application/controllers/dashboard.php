@@ -13,8 +13,14 @@ class dashboard extends CI_Controller {
 	{
 			$data['pageTitle']="Dashboard";
 			$this->load->model('dashboard_model');
+			$jsurl='https://www.google.com/jsapi';
+			$data['loadJs']=array($jsurl);
 			$data['borrowerloan']=$this->dashboard_model->get_loan_borrow();
 			$data['installment']=$this->dashboard_model->get_installment_byloan();
+			$week_loan_data=$this->dashboard_model->get_total_loan();
+			$data['totalloan']=$week_loan_data;
+			$week_insta_data=$this->dashboard_model->get_total_installment();
+			$data['totalinsta']=$week_insta_data;
 			$data['contant']=$this->load->view('dashboard',$data,true);
 			$this->load->view('master',$data);
 	}

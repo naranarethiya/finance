@@ -68,18 +68,24 @@
 						</div>
 						<div class="col-md-6">
 						<label>Intsallment Duration (In Days)</label>
-						<input type="text" class="form-control"  id="installment_duration" name="installment_duration" placeholder="30" required/>
+						<input type="text" class="form-control"  id="installment_duration" name="installment_duration" value="30" required/>
 						</div>
 					</div>		
 					<div class="form-group">
 						<div class="col-md-6">
-						<label>Description / Note</label>
-						<textarea class="form-control" id="note" name="note" placeholder="Enter Description / Note"></textarea>
+						<label>Loan duration in month</label>
+						<input type="text" class="form-control"  id="duration_in_month" name="duration_in_month" value="1" required/>
 						</div>
 						<div class="col-md-6">
 						<label>Payoff Date</label>
 						<!--<input type="text" class="form-control" value="" id="dob" name="dob"  placeholder="Enter Date of Birth" required/>-->
 						<input type="text" class="form-control" name="payoff_date" id="dp2" data-date-format="yyyy-mm-dd" placeholder="Click to select date">	
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-6">
+						<label>Description / Note</label>
+						<textarea class="form-control" id="note" name="note" placeholder="Enter Description / Note"></textarea>
 						</div>
 					</div>
 					<div class="modal-footer">
