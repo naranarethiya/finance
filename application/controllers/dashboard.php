@@ -56,8 +56,9 @@ class dashboard extends CI_Controller {
 							$interval = $datetime2->diff($datetime1);
 							$diff=$interval->format('%a');						
 							$diff=number_format($diff/365,2);
-							$rate=number_format(($row['rate']*12)/100,2);
+							//$rate=number_format(($row['rate']*12)/100,2);
 							$pay_amount=$row['amount']*$diff*$rate;
+							$pay_amount=calculate_interest($row['amount'],$row['rate'],$row['installment_duration']);
 							$row['pay_amount']=$pay_amount;	
 							$data['next_installment'][]=$row;
 						}									
@@ -80,7 +81,7 @@ class dashboard extends CI_Controller {
 	{
 	    $from = date("Y-m-d", strtotime("{$year}-W{$week}-1")); //Returns the date of monday in week
 	    $to = date("Y-m-d", strtotime("{$year}-W{$week}-7"));   //Returns the date of sunday in week
-		if(($date >= $from) && ($date <= $to)) {
+		if(($date >= $from)) {
 			return "true";
 		}
 		else {

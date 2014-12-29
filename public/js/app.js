@@ -9,6 +9,22 @@
  * Global variables. If you change any of these vars, don't forget 
  * to change the values in the less files!
  */
+
+function calculate_interest(p,r,days) {
+  time=days/365;
+  si = p*r*12*time/100;
+  return Math.round(Math.round(si*1000)/1000);
+}
+
+function parseDate(str,seperator) {
+    var mdy = str.split(seperator);
+    return new Date(mdy[2], mdy[1]-1, mdy[0]);
+}
+
+function daydiff(first, second) {
+    return (second-first)/(1000*60*60*24);
+}
+
 var left_side_width = 220; //Sidebar width in pixels
 
 $(function() {

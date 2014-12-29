@@ -54,11 +54,22 @@
 			return $this->db->update('borrower', $data); 
 		}		
 	}
-	function get_borrower_info(){
-	  $this->db->where('deleted_at',NULL,false);
-	  $query = $this->db->get('borrower');
-	  return $query->result_array();       
-	}	
+
+	/* return loan status by customer */
+	function get_borrower_info() {
+		/*$this->db->select("borrower.firstname,borrower.lastname,borrower.email,borrower.city,borrower.address,borrower.borrower_id,borrower.dob,borrower.mobile,l1.status");
+		$this->db->join("loan l1","borrower.borrower_id=l1.borrower_id","INNER JOIN");
+		$this->db->join("loan l2","borrower.borrower_id=l2.borrower_id","LEFT OUTER JOIN");
+	  	$this->db->where('borrower.deleted_at',NULL,false);
+	  	//$this->db->group_by("borrower.borrower_id");
+	  	$this->db->order_by('l1.status','desc');
+	  	//$query = $this->db->get('borrower');*/
+		$sql="select borrower.firstname,borrower.lastname,borrower.email,borrower.city,borrower.address,borrower.borrower_id,borrower.dob,borrower.mobile,loan.status
+			from borrower left join (select status,borrower_id from loan order by status desc) as loan on borrower.borrower_id=loan.borrower_id group by borrower_id";
+		$query=$this->db->query($sql);
+	  	return $query->result_array();       
+	}
+
 	function get_loan_byborrower($id){
 		$this->db->select('loan.*, borrower.firstname, borrower.lastname');
 		$this->db->from('loan');
@@ -148,6 +159,20 @@
  		$this->db->order_by('loan.borrower_id','ASC');
 		$rs=$this->db->get();
 		return $rs->result_array();	 		
+	}
+
+	function next_week_installment() {
+		$sql="Select loan.loanname,borrower.firstname,borrower.lastname,loan.amount,loan_transation.final_amount
+			(( IF(loan_transation.final_amount IS NULL,loan.amount,loan_transation.final_amount)*(loan.rate*12)/36500)*loan.installment_duration) as amount,
+			date_add(installment.paid_date,INTERVAL loan.installment_duration DAY) as payment_date
+			from loan 
+		left join borrower on loan.borrower_id=borrower.borrower_id
+		left join installment on loan.loan_id=installment.loan_id 
+		left join (select amount,loan_id,final_amount from (select * from loan_transaction order by lt_id desc) as transation group by transation.loan_id) as loan_transation on loan.loan_id=loan_transation.loan_id
+		where loan.status='1' 
+		and date_add(installment.paid_date,INTERVAL loan.installment_duration DAY) <  date_add(curdate(),INTERVAL 7 day) order by installment.paid_date";
+		$rs=$this->db->query($sql);
+		return $rs->result_array();
 	}
 }
 ?>

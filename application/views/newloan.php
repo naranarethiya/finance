@@ -62,9 +62,8 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-6">
-						<label>Loan Start Date</label>
-						<!--<input type="text" class="form-control" value="" id="dob" name="dob"  placeholder="Enter Date of Birth" required/>-->
-						<input type="text" class="form-control" name="start_date" id="dp1" data-date-format="yyyy-mm-dd" placeholder="Click to select date">	
+						<label>Loan Duration(In month)</label>
+						<input type="text" class="form-control"  id="duration_in_month" name="duration_in_month" value="1" required/>
 						</div>
 						<div class="col-md-6">
 						<label>Intsallment Duration (In Days)</label>
@@ -73,8 +72,9 @@
 					</div>		
 					<div class="form-group">
 						<div class="col-md-6">
-						<label>Loan duration in month</label>
-						<input type="text" class="form-control"  id="duration_in_month" name="duration_in_month" value="1" required/>
+						<label>Loan Start Date</label>
+						<!--<input type="text" class="form-control" value="" id="dob" name="dob"  placeholder="Enter Date of Birth" required/>-->
+						<input type="text" class="form-control" name="start_date" id="dp1" data-date-format="yyyy-mm-dd" placeholder="Click to select date">	
 						</div>
 						<div class="col-md-6">
 						<label>Payoff Date</label>

@@ -91,6 +91,13 @@ function httpRequest($url) {
     return($in);
 }
 
+/* calculate simple interest by month */
+function calculate_interest($p,$r,$days) {
+  $time=$days/365;
+  $si = $p*$r*12*$time/100;
+  return round(round($si*1000)/1000);
+}
+
 
 /**
  * This file is part of the array_column library

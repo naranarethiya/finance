@@ -5,7 +5,8 @@
 		$this->load->database();
 	}	
 
-	function get_loan_borrow(){
+	/* get currant active loan by borrower  */
+	function get_loan_borrow() {
 		$this->db->select('loan.*, borrower.firstname, borrower.lastname');
 		$this->db->from('loan');
 		$this->db->join('borrower','loan.borrower_id=borrower.borrower_id');
@@ -15,7 +16,9 @@
 	    return $query->result_array();       
 	}
 
-	function get_installment_byloan(){
+
+	/* get installment by borrower */
+	function get_installment_byloan() {
 		$this->db->select('installment.*, borrower.firstname, borrower.lastname');
 		$this->db->from('installment');
 		$this->db->join('borrower','installment.borrower_id=borrower.borrower_id');
@@ -25,7 +28,8 @@
 	 	return $query->result_array();       
 	}
 
-	function get_installment(){
+	/* get installment with loan and borrower */
+	function get_installment() {
 		$this->db->select('installment.*,loan.*, borrower.firstname, borrower.lastname');
 		$this->db->from('installment');
 		$this->db->join('borrower','installment.borrower_id=borrower.borrower_id');
@@ -35,22 +39,28 @@
 	 	return $query->result_array();       
 	}
 
+	/*  get sum of given loan by week  */
 	function get_total_loan() {
 		$sql="SELECT sum(amount) as total FROM loan group by date_format(`start_date`,'%U')";
 		$query=$this->db->query($sql);
 		return $query->result_array();  
 	}
 
+	/* get sum of paid installment by week */
 	function get_total_installment() {
 		$sql="SELECT sum(`paid_amount`) as totalinsta FROM installment group by date_format(`paid_date`,'%U')";
 		$query=$this->db->query($sql);
 		return $query->result_array();		
 	}
+
+	/* get installment by loan id */
 	function get_date($id) {
 		$sql="SELECT * FROM installment WHERE loan_id='".$id."'";
 		$query=$this->db->query($sql);
 		return $query->result_array();		
 	}
+
+	/* check installment id */
 	function check_date($id) {
 		$sql="SELECT * FROM installment WHERE loan_id='".$id."'";
 		$query=$this->db->query($sql);
