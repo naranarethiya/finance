@@ -22,6 +22,15 @@ class dashboard extends CI_Controller {
 		$data['totalinsta']=$week_insta_data;
 		$loan=$this->dashboard_model->get_loan_borrow();
 		foreach ($loan as $row) {
+			$chkamount=$this->dashboard_model->get_loan_amount_loantxn($row['loan_id']);
+
+			if($chkamount == "0") {
+				$principal=$row['amount'];
+			}
+			else {
+				$finalamount=$this->dashboard_model->get_loan_finalamount($row['loan_id']);
+				$principal=$finalamount[0]['final_amount'];
+			}			
 			$chkdate=$this->dashboard_model->check_date($row['loan_id']);
 			if($chkdate=="0") {
 				$date=strtotime($row['start_date']);
@@ -32,7 +41,7 @@ class dashboard extends CI_Controller {
 				if($res=="true") {
 					$row['nextdate']=$nextdate;	
 					$diff=daydiff($row['start_date'],$nextdate);	
-					$pay_amount=calculate_interest($row['amount'],$rate,$diff);
+					$pay_amount=calculate_interest($principal,$row['rate'],$diff);
 					$row['pay_amount']=$pay_amount;	
 					$data['next_installment'][]=$row;				
 				}			
@@ -47,8 +56,8 @@ class dashboard extends CI_Controller {
 					$res=getWeekDates(date('Y'), $week, $nextdate);	
 					if($res=="true") {
 						$row['nextdate']=$nextdate;
-						$diff=daydiff($rowdate['paid_date'],$nextdate);						
-						$pay_amount=calculate_interest($row['amount'],$row['rate'],$row['installment_duration']);
+						$diff=daydiff($rowdate['paid_date'],$nextdate);		
+						$pay_amount=calculate_interest($principal,$row['rate'],$diff);
 						$row['pay_amount']=$pay_amount;	
 						$data['next_installment'][]=$row;
 					}									
@@ -57,6 +66,15 @@ class dashboard extends CI_Controller {
 		}
 
 		foreach ($loan as $row) {
+			$chkamount=$this->dashboard_model->get_loan_amount_loantxn($row['loan_id']);
+
+			if($chkamount == "0") {
+				$principal=$row['amount'];
+			}
+			else {
+				$finalamount=$this->dashboard_model->get_loan_finalamount($row['loan_id']);
+				$principal=$finalamount[0]['final_amount'];
+			}			
 			$chkdate=$this->dashboard_model->check_date($row['loan_id']);
 			if($chkdate=="0") {
 				$date=strtotime($row['start_date']);
@@ -67,11 +85,11 @@ class dashboard extends CI_Controller {
 				if($res=="true") {
 					$row['nextdate']=$nextdate;	
 					$diff=daydiff($row['start_date'],$nextdate);	
-					$pay_amount=calculate_interest($row['amount'],$rate,$diff);
+					$pay_amount=calculate_interest($principal,$row['rate'],$diff);
 					$row['pay_amount']=$pay_amount;	
 					$payoff_res=getWeekDates(date('Y'), $week, $row['payoff_date']);
 					if($payoff_res=="true") {
-						$row['payoff_amount']=$row['amount']+$pay_amount;
+						$row['payoff_amount']=$principal+$pay_amount;
 						$data['payoff'][]=$row;	
 					}				
 				}			
@@ -87,11 +105,11 @@ class dashboard extends CI_Controller {
 					if($res=="true") {
 						$row['nextdate']=$nextdate;
 						$diff=daydiff($rowdate['paid_date'],$nextdate);						
-						$pay_amount=calculate_interest($row['amount'],$row['rate'],$row['installment_duration']);
+						$pay_amount=calculate_interest($principal,$row['rate'],$row['installment_duration']);
 						$row['pay_amount']=$pay_amount;	
 						$payoff_res=getWeekDates(date('Y'), $week, $row['payoff_date']);
 						if($payoff_res=="true") {
-							$row['payoff_amount']=$row['amount']+$pay_amount;
+							$row['payoff_amount']=$principal+$pay_amount;
 							$data['payoff'][]=$row;
 						}
 					}									

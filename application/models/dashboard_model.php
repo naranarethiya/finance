@@ -67,5 +67,13 @@
 		$query=$this->db->query($sql);
 		return $query->num_rows();		
 	}	
+	function get_loan_amount_loantxn($id) {
+	  $query = $this->db->get_where('loan_transaction',array('loan_id'=>$id));
+	  return $query->num_rows() ;		
+	}
+	function get_loan_finalamount($id) {
+	  $query = $this->db->get_where('loan_transaction',array('loan_id'=>$id));
+	  return $query->result_array(); 	
+	}
 }
 ?>

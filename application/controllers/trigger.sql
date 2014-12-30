@@ -29,10 +29,12 @@ FOR EACH ROW BEGIN
 		ELSE
 			SET payoff="Installment";
 			SET final_amount=loan_amount-(paid_amount-pay_amount);
-	    END IF;
+		END IF;
+		
 		IF(payoff = "Payoff") THEN
 		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `loan_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,loan_amount,payoff);
-		update loan set `status`=0 where loan_id = NEW.loan_id; 		
+		update loan set `status`=0 where loan_id = NEW.loan_id; 
+		
 		ELSE
 		INSERT INTO `loan_transaction`(`loan_id`, `borrower_id`, `insta_id`, `amount`, `final_amount`, `loan_amount`, `reason`) VALUES (NEW.loan_id,NEW.borrower_id,NEW.insta_id,NEW.paid_amount,final_amount,loan_amount,payoff);
 		END IF;

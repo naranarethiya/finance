@@ -87,23 +87,27 @@
 
 			<div class="form-group">
 				<div class="col-md-6">
-				<label>Borrower First Name</label>
+				<label>Borrower Name</label>
 				<input type="text" value="" class="form-control" id="firstname" name="firstname" placeholder="Enter Borrower First Name" />
 				</div>
-				<div class="col-md-6">
-				<label>Borrower Last Name</label>
-				<input type="text" class="form-control" value="" id="lastname" name="lastname" placeholder="Enter Borrower Last Name" />
-				</div>
-			</div>
-			<div class="form-group">
 				<div class="col-md-6">
 				<label>Mobile</label>
 				<input type="text" class="form-control" value="" id="mobile" name="mobile" placeholder="Enter Mobile" />
 				</div>
+			</div>
+			<div class="form-group">
 				<div class="col-md-6">
 				<label>City</label>
 				<input type="text" class="form-control" value="" id="city" name="city" placeholder="Enter City" />
-				</div>						
+				</div>		
+            	<div class="col-md-6">
+            		<label>Status</label>
+					<select class="form-control" name="status">
+						<option value="">All</option>
+						<option value="1">Active</option>
+						<option value="0">Disactive</option>
+					</select>        		
+            	</div>								
             </div>
 			<div class="form-group">
 				<div class="col-md-6">
@@ -122,17 +126,9 @@
                     <input type="radio" name="gender" id="gender" checked value=""/> All  
                 </label>                
             	</div>
-            	<div class="col-md-6">
-            		<label>Status</label>
-					<select class="form-control" name="status">
-						<option value="">All</option>
-						<option value="1">Active</option>
-						<option value="0">Disactive</option>
-					</select>        		
-            	</div>
 			</div>
-			<div class="box-footer">
-				<input type="submit" name="submit"  class="btn btn-primary" value="Search">
+			<div class="modal-footer">
+				<input type="submit" name="submit"  class="btn btn-primary" value="Search" style="margin-top:50px;">
 			</div>		        		
 		<?php
 			echo form_close();

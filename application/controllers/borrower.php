@@ -194,7 +194,7 @@ class borrower extends CI_Controller {
 	}
 
 	function search() {
-		
+		//dsm($this->input->post());die;
 		$firstname = $this->input->post('firstname');
 		$mobile = $this->input->post('mobile');
 		$city = $this->input->post('city');	
@@ -241,6 +241,7 @@ class borrower extends CI_Controller {
 			$principal=$finalamount[0]['final_amount'];
 		}
 		$chkdate=$this->borrower_model->get_loan_date($id);
+
 		if($chkdate == "0") {
 			$diff=daydiff($amount[0]['start_date'],$date);
 
@@ -261,10 +262,10 @@ class borrower extends CI_Controller {
 		}
 		else {
 			$last_date=$this->borrower_model->get_date($id);
+			
 			$diff=daydiff($last_date[0]['paid_date'],$date);
-
+			
 			$interest=calculate_interest($principal,$amount[0]['rate'],$diff);				
-
 			if($payoff=="1") {
 				$pay_amount=$principal+$interest;
 				echo $pay_amount;

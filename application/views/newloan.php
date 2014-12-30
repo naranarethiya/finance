@@ -118,29 +118,24 @@
 
 		var dur_month=$('#duration_in_month').val();
 		var nd = new Date();
-		var nextDate = nd.getDate();
-		var nextMonth = parseInt(nd.getMonth()+1)+parseInt(dur_month);
-		var nextYear = nd.getFullYear();
-		if (nextMonth > 12)
-		   { 
-		     nextMonth = 1;
-		     nextYear = nextYear + 1;
-		   }		
-		if (getNumFebDays(nextYear) == 28 && nextMonth == 2 ) { 
-			nextDate = 28; 
-		} 
-		if (getNumFebDays(nextYear) == 29 && nextMonth == 2) { 
-			nextDate = 29; 
-		} 
-
-		function getNumFebDays(theYear) { 
-			if ((theYear / 4 == 0 && theYear % 100 != 0) || theYear % 400 == 0) 
-				return 29; 
-			else 
-				return 28;
-		} 		   
+		var todayDate=new Date(nd.setMonth(nd.getMonth() + parseInt(dur_month)));
+		var nextDate = todayDate.getDate();
+		var nextMonth = todayDate.getMonth()+1;
+		var nextYear = todayDate.getFullYear();
 		var payoff_dateStr = nextYear + "-" + nextMonth + "-" + nextDate;
 		$('#dp2').val(payoff_dateStr);
 	});
+
+$("#duration_in_month").on('change keyup paste', function () {
+
+	var dur_month=$('#duration_in_month').val();
+	var nd = new Date();
+	var todayDate=new Date(nd.setMonth(nd.getMonth() + parseInt(dur_month)));
+	var nextDate = todayDate.getDate();
+	var nextMonth = todayDate.getMonth()+1;
+	var nextYear = todayDate.getFullYear();
+	var payoff_dateStr = nextYear + "-" + nextMonth + "-" + nextDate;
+	$('#dp2').val(payoff_dateStr);
+});	
 
 </script>

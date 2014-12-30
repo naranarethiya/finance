@@ -18,6 +18,7 @@
 	}	
 
 	function get_search_borrower($firstname,$mobile,$city,$gender,$status) {
+		//dsm(func_get_args());
 		if($firstname!='') {
 			$this->db->like("borrower.firstname",$firstname);
 			$this->db->or_like("borrower.lastname",$firstname);
@@ -41,6 +42,7 @@
 		$this->db->join("loan","loan.borrower_id=borrower.borrower_id",'left');
 		
 		$rs=$this->db->get("borrower");
+		//echo $this->db->last_query(); die;
 		return $rs->result_array();
 	}
 	

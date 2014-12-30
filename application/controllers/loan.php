@@ -87,7 +87,7 @@ class loan extends CI_Controller {
 			$duration_in_month = $this->input->post('duration_in_month');
 			$note = $this->input->post('note');
 			$status="1";
-			$loanname=$amount." for ".$rate."% on ". date_format($start_date,"M-Y");
+			$loanname=$amount." for ".$rate."% on ". date('M', strtotime( $start_date ))." - ".date('Y', strtotime( $start_date ));
 			$created_at = date('Y-m-d h:i:s');
 			$data = array(
 				'borrower_id'=>$borrower_id,

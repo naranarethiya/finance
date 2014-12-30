@@ -23,7 +23,7 @@
 				<tbody>
 					<?php
 						if(!isset($borrower)):
-							echo "<tr><td colspan='11' align='center'>No Record Found!</td></tr>";
+							echo "<tr><td colspan='6' align='center'>No Record Found!</td></tr>";
 						else :
 						foreach ($borrower as $row)
 						{
@@ -64,7 +64,7 @@
 				<tbody>
 					<?php
 						if(!isset($takenloan)):
-							echo "<tr><td colspan='11' align='center'>No Record Found!</td></tr>";
+							echo "<tr><td colspan='9' align='center'>No Record Found!</td></tr>";
 						else :
 						foreach ($takenloan as $tloan)
 						{
@@ -116,7 +116,7 @@
 				<tbody>
 				<?php
 					if(empty($installment)):
-						echo "<tr><td colspan='7' align='center'>No Record Found!</td></tr>";
+						echo "<tr><td colspan='6' align='center'>No Record Found!</td></tr>";
 					else :
 					foreach ($installment as $insta)
 					{
@@ -165,7 +165,7 @@
 				<tbody>
 					<?php
 						if(empty($ltxn)):
-							echo "<tr><td colspan='7' align='center'>No Record Found!</td></tr>";
+							echo "<tr><td colspan='8' align='center'>No Record Found!</td></tr>";
 						else :
 						foreach ($ltxn as $loanxn)
 						{
