@@ -14,6 +14,7 @@
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
 					  	<th>Installment Duration(days)</th>
+					  	<th>Loan Period(Months)</th>
 					  	<th>Payoff date</th>
 					  	<th>Status</th>		  			
 					</tr>
@@ -36,6 +37,7 @@
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>
 					  	<td><?php echo $row['installment_duration']; ?></td>
+					  	<td><?php echo $row['duration_in_month']; ?></td>
 					  	<td><?php echo $row['payoff_date']; ?></td>
 						<td>
 							<?php 
@@ -68,6 +70,7 @@
 					  	<th>Rate</th>
 					  	<th>Start Date</th>
 					  	<th>Installment Duration(days)</th>
+					  	<th>Loan Period(Months)</th>
 					  	<th>Status</th>		  			
 					</tr>
 				</thead>
@@ -86,6 +89,7 @@
 					  	<td><?php echo $bloan['rate']; ?></td>
 					  	<td><?php $date = date_create($bloan['start_date']); echo date_format($date,"d-m-Y");?></td>
 					  	<td><?php echo $bloan['installment_duration']; ?></td>
+					  	<td><?php echo $row['duration_in_month']; ?></td>
 						<td>
 							<?php 
 								if($bloan['status']=="1") {
@@ -110,7 +114,7 @@
 	        <h3 class="box-title">Installment List</h3>
 	    </div><!-- /.box-header -->
 	    <div class="box-body table-responsive">
-			<table id='tab1' class='table table-bordered table-striped'>
+			<table id='tab1' class='table table-bordered'>
 				<thead>
 				  <tr>
 				  	<th>Installment Id</th>

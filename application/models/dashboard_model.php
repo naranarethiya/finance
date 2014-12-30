@@ -19,9 +19,10 @@
 
 	/* get installment by borrower */
 	function get_installment_byloan() {
-		$this->db->select('installment.*, borrower.firstname, borrower.lastname');
+		$this->db->select('installment.*, borrower.*, loan.*');
 		$this->db->from('installment');
 		$this->db->join('borrower','installment.borrower_id=borrower.borrower_id');
+		$this->db->join('loan','installment.loan_id=loan.loan_id');
 		$this->db->order_by('installment.insta_id','desc');
 		$this->db->limit(10);
 	  	$query = $this->db->get();

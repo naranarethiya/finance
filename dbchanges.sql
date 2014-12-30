@@ -10,6 +10,8 @@ ALTER TABLE  `installment` ADD  `note` TEXT NOT NULL AFTER  `payoff`
 
 ALTER TABLE  `loan` ADD  `loanname` VARCHAR( 100 ) NOT NULL AFTER  `status`
 
+ALTER TABLE  `loan` CHANGE  `loanname`  `loanname` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+
 /* query for display next week installments */
 Select loan.loanname,borrower.firstname,borrower.lastname,
 	(( IF(loan_transation.final_amount IS NULL,loan.amount,loan_transation.final_amount)*(loan.rate*12)/36500)*loan.installment_duration) as amount,

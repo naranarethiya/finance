@@ -73,13 +73,11 @@
 					<div class="form-group">
 						<div class="col-md-6">
 						<label>Loan Start Date</label>
-						<!--<input type="text" class="form-control" value="" id="dob" name="dob"  placeholder="Enter Date of Birth" required/>-->
 						<input type="text" class="form-control" name="start_date" id="dp1" data-date-format="yyyy-mm-dd" placeholder="Click to select date">	
 						</div>
 						<div class="col-md-6">
 						<label>Payoff Date</label>
-						<!--<input type="text" class="form-control" value="" id="dob" name="dob"  placeholder="Enter Date of Birth" required/>-->
-						<input type="text" class="form-control" name="payoff_date" id="dp2" data-date-format="yyyy-mm-dd" placeholder="Click to select date">	
+						<input type="text" class="form-control" name="payoff_date" id="dp2" data-date-format="yyyy-mm-dd" readonly>	
 						</div>
 					</div>
 					<div class="form-group">
@@ -106,10 +104,7 @@
 	        "setDate": new Date(),
 	        "autoclose": true
 	});
-	$('#dp2').datepicker({
-	        "setDate": new Date(),
-	        "autoclose": true
-	});
+
 	jQuery( document ).ready(function($) {
 
 		var d = new Date();
@@ -120,7 +115,32 @@
 		var dateStr = currYear + "-" + currMonth + "-" + currDate;
 
 		$('#dp1').val(dateStr);
-		$('#dp2').val(dateStr);
+
+		var dur_month=$('#duration_in_month').val();
+		var nd = new Date();
+		var nextDate = nd.getDate();
+		var nextMonth = parseInt(nd.getMonth()+1)+parseInt(dur_month);
+		var nextYear = nd.getFullYear();
+		if (nextMonth > 12)
+		   { 
+		     nextMonth = 1;
+		     nextYear = nextYear + 1;
+		   }		
+		if (getNumFebDays(nextYear) == 28 && nextMonth == 2 ) { 
+			nextDate = 28; 
+		} 
+		if (getNumFebDays(nextYear) == 29 && nextMonth == 2) { 
+			nextDate = 29; 
+		} 
+
+		function getNumFebDays(theYear) { 
+			if ((theYear / 4 == 0 && theYear % 100 != 0) || theYear % 400 == 0) 
+				return 29; 
+			else 
+				return 28;
+		} 		   
+		var payoff_dateStr = nextYear + "-" + nextMonth + "-" + nextDate;
+		$('#dp2').val(payoff_dateStr);
 	});
 
 </script>

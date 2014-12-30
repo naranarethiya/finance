@@ -17,7 +17,8 @@
 					  	<th>Borrower Name</th>
 					  	<th>Loan Amount</th>
 					  	<th>Rate</th>
-					  	<th>Installment Duration</th>
+					  	<th>Installment Duration(days)</th>
+					  	<th>Loan Period(Months)</th>
 					  	<th>Payoff date</th>
 					  	<th>Status</th>		  			
 					</tr>
@@ -41,6 +42,7 @@
 					  	<td><?php echo $row['amount']; ?></td>
 					  	<td><?php echo $row['rate']; ?></td>
 					  	<td><?php echo $row['installment_duration']; ?></td>
+					  	<td><?php echo $row['duration_in_month']; ?></td>
 					  	<td><?php echo $row['payoff_date']; ?></td>
 						<td>
 							<?php 

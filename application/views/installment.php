@@ -3,11 +3,12 @@
 		<table id='tab1' class='table table-bordered table-striped'>
 			<thead>
 				<tr>
-				  	<th>Loan Id</th>
+				  	<th>Loan</th>
 				  	<th>Borrower Name</th>
 				  	<th>Loan Amount</th>
 				  	<th>Rate</th>
-				  	<th>Installment Duration</th>
+				  	<th>Installment Duration(days)</th>
+				  	<th>Loan Period(Months)</th>
 				  	<th>Payoff date</th>
 				  	<th>Status</th>		  			
 				</tr>
@@ -21,11 +22,12 @@
 					{
 				?>					
 				<tr>
-					<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo "L00".$row['loan_id']; ?></a></td>
+					<td><a href="<?php echo base_url().'loan/view/'.$row['loan_id'];?>"><?php echo $row['loanname']; ?></a></td>
 				  	<td><b><a href="<?php echo base_url().'borrower/index/'.$row['borrower_id'];?>"><?php echo $row['firstname'] ." " . $row['lastname']; ?></a></b></td>
 				  	<td><?php echo $row['amount']; ?></td>
 				  	<td><?php echo $row['rate']; ?></td>
 				  	<td><?php echo $row['installment_duration']; ?></td>
+			  		<td><?php echo $row['duration_in_month']; ?></td>
 				  	<td><?php echo $row['payoff_date']; ?></td>
 					<td>
 						<?php 
@@ -142,11 +144,11 @@
         <h3 class="box-title">Installment List</h3>
     </div><!-- /.box-header -->
     <div class="box-body table-responsive">
-		<table id='tab1' class='table table-bordered table-striped'>
+		<table id='tab1' class='table table-bordered'>
 			<thead>
 				<tr>
 				  	<th>Installment Id</th>
-				  	<th>Loan Id</th>
+				  	<th>Loan</th>
 				  	<th>Borrorwer</th>
 				  	<th>Pay Amount</th>
 				  	<th>Paid Amount</th>
@@ -158,12 +160,19 @@
 				if(empty($installment)):
 					echo "<tr><td colspan='7' align='center'>No Record Found!</td></tr>";
 				else :
-				foreach ($installment as $insta)
-				{
+				foreach ($installment as $insta) {
+				if($insta['pay_amount'] > $insta['paid_amount']) {
+					echo "<tr class='danger'>";
+				}
+				else if($insta['pay_amount'] < $insta['paid_amount']) {
+					echo "<tr class='success'>";
+				}
+				else {
+					echo "<tr>";
+				}						
 			?>
-			<tr>
 			  	<td><?php echo "I00".$insta['insta_id'];?></td>
-			  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo "L00".$insta['loan_id']; ?></a></td>
+			  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo $insta['loanname']; ?></a></td>
 			  	<td><b><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname'] ." " . $insta['lastname']; ?></a></b></td>
 			  	<td><?php echo $insta['pay_amount'];?></td>
 			  	<td><?php echo $insta['paid_amount'];?></td>
@@ -212,6 +221,7 @@ $(document).ready(function () {
             dataType: 'json', 
                 success: function (loan_id) {
                 $('#pay_amount').val(loan_id);
+                $('#paid_amount').val(loan_id);
             }
         });
     }
@@ -239,6 +249,7 @@ $(document).ready(function () {
 	            dataType: 'json', 
 	                success: function (loan_id) {
 	                $('#pay_amount').val(loan_id);
+	                $('#paid_amount').val(loan_id);
 	            }
 	        });
 	    }
@@ -273,6 +284,7 @@ $('input[name="submit"]').click(function() {
 	            dataType: 'json', 
 	                success: function (loan_id) {
 	                $('#pay_amount').val(loan_id);
+	                $('#paid_amount').val(loan_id);
 	            }
 	        });
 		    }
@@ -301,6 +313,7 @@ jQuery('#dp1').datepicker().on('changeDate', function(ev){
             dataType: 'json', 
                 success: function (loan_id) {
                 $('#pay_amount').val(loan_id);
+                $('#paid_amount').val(loan_id);
             }
         });
     }

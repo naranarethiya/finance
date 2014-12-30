@@ -131,7 +131,7 @@
 
 	function get_loan_date($id) {
 	  $query = $this->db->get_where('installment',array('loan_id'=>$id));
-	  return $query->num_rows() ;		
+	  return $query->num_rows();		
 	}
 
 	function get_date($id) {
@@ -140,7 +140,7 @@
 	}	
 
 	function get_installment_last($id) {
-		$this->db->select('installment.*, borrower.*');
+		$this->db->select('installment.*, borrower.*, loan.*');
 		$this->db->from('installment');
 		$this->db->join('borrower','installment.borrower_id=borrower.borrower_id');	
 		$this->db->join('loan','installment.loan_id=loan.loan_id');	

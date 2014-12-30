@@ -56,6 +56,7 @@
 					  	<th>Rate</th>
 					  	<th>Start Date</th>
 					  	<th>Installment Duration(days)</th>
+					  	<th>Loan Period(Months)</th>
 					  	<th>Payoff date</th>
 					  	<th>Status</th>
 					</tr>
@@ -75,6 +76,7 @@
 					  	<td><?php echo $tloan['rate']; ?></td>
 					  	<td><?php $date = date_create($tloan['start_date']); echo date_format($date,"d-m-Y"); ?></td>
 					  	<td><?php echo $tloan['installment_duration']; ?></td>
+					  	<td><?php echo $tloan['duration_in_month']; ?></td>
 						<td><?php echo $tloan['payoff_date']; ?></td>
 						<td>
 							<?php 
@@ -100,7 +102,7 @@
 	        <h3 class="box-title">Installment List</h3>
 	    </div><!-- /.box-header -->
 	    <div class="box-body table-responsive">
-			<table id='tab1' class='table table-bordered table-striped'>
+			<table id='tab1' class='table table-bordered'>
 				<thead>
 					<tr>
 					  	<th>Installment Id</th>

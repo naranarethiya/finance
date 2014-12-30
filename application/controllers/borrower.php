@@ -225,6 +225,7 @@ class borrower extends CI_Controller {
 	}
 
 	function get_amount() {	
+		//dsm($this->input->post()); die;
 		$id=$this->input->post('id');
 		$date=$this->input->post('date');
 		$payoff=$this->input->post('payoff');
@@ -240,70 +241,37 @@ class borrower extends CI_Controller {
 			$principal=$finalamount[0]['final_amount'];
 		}
 		$chkdate=$this->borrower_model->get_loan_date($id);
-
 		if($chkdate == "0") {
-			$datetime1 = new DateTime($amount[0]['start_date']);
-			$datetime2 = new DateTime($date);
-			$interval = $datetime2->diff($datetime1);
-			$diff=$interval->format('%a');
-			$datearr=explode('-', $amount[0]['start_date']);
-			$num = cal_days_in_month(CAL_GREGORIAN, $datearr[1], $datearr[0]);
-			if($payoff=="1") {
-				if ($diff<=$num) {
-					$num=number_format($num/365,2);
-					$rate=number_format(($amount[0]['rate']*12)/100,2);
-					$pay_amount=$principal+($principal*$num*$rate);
-					echo $pay_amount;
-				}
-				else {
-					$diff=number_format($diff/365,2);
-					$rate=number_format(($amount[0]['rate']*12)/100,2);
-					$pay_amount=$principal+($principal*$diff*$rate);
-					echo $pay_amount;
-				}
-			} 
+			$diff=daydiff($amount[0]['start_date'],$date);
+
+			if($diff<$amount[0]['installment_duration']) {
+				$interest=calculate_interest($principal,$amount[0]['rate'],$amount[0]['installment_duration']);
+			}
 			else {
-				if ($diff<=$num) {
-					$num=number_format($num/365,2);
-					$rate=number_format(($amount[0]['rate']*12)/100,2);
-					$pay_amount=$principal*$num*$rate;
-					echo $pay_amount;
-				}
-				else {
-					$diff=number_format($diff/365,2);
-					$rate=number_format(($amount[0]['rate']*12)/100,2);
-					$pay_amount=$principal*$diff*$rate;
-					echo $pay_amount;
-				}					
-			}  		
-		}
-		else {		
-			$last_date=$this->borrower_model->get_date($id);
-			$datetime1 = new DateTime($last_date[0]['paid_date']);
-			$datetime2 = new DateTime($date);
-			$interval = $datetime2->diff($datetime1);
-			$diff=$interval->format('%a');
+				$interest=calculate_interest($principal,$amount[0]['rate'],$diff);				
+			}
 			if($payoff=="1") {
-				$diff=number_format($diff/365,2);
-				$rate=number_format(($amount[0]['rate']*12)/100,2);
-				$pay_amount=$principal+($principal*$diff*$rate);
+				$pay_amount=$principal+$interest;
 				echo $pay_amount;
-			}    
-			else {			
-				$datearr=explode('-', $date);
-				$num = cal_days_in_month(CAL_GREGORIAN, $datearr[1], $datearr[0]);
-				$num=number_format($num/365,2);
-				$rate=number_format(($amount[0]['rate']*12)/100,2);				
-				if($diff<=$num) {
-					$pay_amount=$principal*$num*$rate;
-					echo $pay_amount;	
-				}
-				else {
-					$diff=number_format($diff/365,2);
-					$rate=number_format(($amount[0]['rate']*12)/100,2);
-					$pay_amount=$principal*$diff*$rate;
-					echo $pay_amount;				
-				}
+			}
+			else {
+				$pay_amount=$interest;	
+				echo $pay_amount;
+			}
+		}
+		else {
+			$last_date=$this->borrower_model->get_date($id);
+			$diff=daydiff($last_date[0]['paid_date'],$date);
+
+			$interest=calculate_interest($principal,$amount[0]['rate'],$diff);				
+
+			if($payoff=="1") {
+				$pay_amount=$principal+$interest;
+				echo $pay_amount;
+			}
+			else {
+				$pay_amount=$interest;
+				echo $pay_amount;
 			}
 		}
 	}

@@ -71,11 +71,11 @@
         <h3 class="box-title">Last 10 Transactions</h3>
     </div><!-- /.box-header -->
     <div class="box-body table-responsive">  	
-		<table id='tab1' class='table table-bordered table-striped'>
+		<table id='tab1' class='table table-bordered'>
 			<thead>
 			  <tr>
 			  	<th>Installment Id</th>
-			  	<th>Loan Id</th>
+			  	<th>Loan</th>
 			  	<th>Borrorwer</th>
 			  	<th>Pay Amount</th>
 			  	<th>Paid Amount</th>
@@ -99,9 +99,8 @@
 							echo "<tr>";
 						}						
 				?>
-				<tr>
 				  	<td><?php echo "I00".$insta['insta_id'];?></td>
-				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo "L00".$insta['loan_id'];?></a></td>
+				  	<td><a href="<?php echo base_url().'loan/view/'.$insta['loan_id'];?>"><?php echo $insta['loanname'];?></a></td>
 				  	<td><a href="<?php echo base_url().'borrower/index/'.$insta['borrower_id'];?>"><?php echo $insta['firstname'] ." ". $insta['lastname'];?></a></td>
 				  	<td><?php echo $insta['pay_amount'];?></td>
 				  	<td><?php echo $insta['paid_amount'];?></td>
@@ -118,15 +117,16 @@
         <h3 class="box-title">Current Active Loan(s)</h3>
     </div><!-- /.box-header -->
     <div class="box-body table-responsive">
-		<table id='tab1' class='table table-bordered table-striped'>
+		<table id='tab1' class='table table-bordered'>
 			<thead>
 				<tr>
-				  	<th>Loan Id</th>
+				  	<th>Loan</th>
 				  	<th>Borrower</th>
 				  	<th>Loan Amount</th>
 				  	<th>Rate</th>
 				  	<th>Start Date</th>
 				  	<th>Installment Duration(days)</th>
+				  	<th>Loan Period(Months)</th>
 				  	<th>Payoff date</th>
 				  	<th>Status</th>		  			
 				</tr>
@@ -140,12 +140,13 @@
 					{
 				?>					
 				<tr>
-				  	<td><a href="<?php echo base_url().'loan/view/'.$bloan['loan_id'];?>"><?php echo "L00".$bloan['loan_id'];?></a></td>
+				  	<td><a href="<?php echo base_url().'loan/view/'.$bloan['loan_id'];?>"><?php echo $bloan['loanname'];?></a></td>
 				  	<td><a href="<?php echo base_url().'borrower/index/'.$bloan['borrower_id'];?>"><?php echo $bloan['firstname'] ." ". $bloan['lastname'];?></a></td>
 				  	<td><?php echo $bloan['amount']; ?></td>
 				  	<td><?php echo $bloan['rate']; ?></td>
 				  	<td><?php $date = date_create($bloan['start_date']); echo date_format($date,"d-m-Y");?></td>
 				  	<td><?php echo $bloan['installment_duration']; ?></td>
+				  	<td><?php echo $bloan['duration_in_month']; ?></td>
 				  	<td><?php $date = date_create($bloan['payoff_date']); echo date_format($date,"d-m-Y");?></td>
 					<td>
 						<?php 
@@ -192,6 +193,41 @@
 						  	<td><a href="<?php echo base_url().'borrower/index/'.$ninsta['borrower_id'];?>"><?php echo $ninsta['firstname'] ." ". $ninsta['lastname'];?></a></td>
 						  	<td><?php echo $ninsta['pay_amount']; ?></td>
 						  	<td><?php $date = date_create($ninsta['nextdate']); echo date_format($date,"d-m-Y");?></td>
+						</tr>	
+						<?php } endif; ?>								
+					</tbody>
+				</table>
+			</div>
+		</div>    	
+    </div>
+    <div class="col-md-6">
+		<div class="box">
+		    <div class="box-header">
+		        <h3 class="box-title">Payoff (This Week)</h3>
+		    </div><!-- /.box-header -->
+		    <div class="box-body table-responsive">
+				<table id='tab1' class='table table-bordered table-striped'>
+					<thead>
+						<tr>
+						  	<th>Loan</th>
+						  	<th>Borrower</th>
+						  	<th>Pay Amount</th>
+						  	<th>Payoff date</th>	  			
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							if(empty($payoff)):
+								echo "<tr><td colspan='4' align='center'>No Record Found!</td></tr>";
+							else :
+							foreach ($payoff as $payoff)
+							{
+						?>					
+						<tr>
+						  	<td><a href="<?php echo base_url().'loan/view/'.$payoff['loan_id'];?>"><?php echo $payoff['loanname'];?></a></td>
+						  	<td><a href="<?php echo base_url().'borrower/index/'.$payoff['borrower_id'];?>"><?php echo $payoff['firstname'] ." ". $payoff['lastname'];?></a></td>
+						  	<td><?php echo $payoff['payoff_amount']; ?></td>
+						  	<td><?php $date = date_create($payoff['payoff_date']); echo date_format($date,"d-m-Y");?></td>
 						</tr>	
 						<?php } endif; ?>								
 					</tbody>

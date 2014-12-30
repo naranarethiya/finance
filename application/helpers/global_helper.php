@@ -97,7 +97,43 @@ function calculate_interest($p,$r,$days) {
   $si = $p*$r*12*$time/100;
   return round(round($si*1000)/1000);
 }
+/* calculate date difference in days */
+function daydiff($date1,$date2) {
+  $datetime1 = new DateTime($date1);
+  $datetime2 = new DateTime($date2);
+  $interval = $datetime2->diff($datetime1);
+  return $interval->format('%a');
+}
 
+function getWeekDates($year,$week,$date,$start=true) {
+
+  $from = date("Y-m-d", strtotime("{$year}-W{$week}-1")); //Returns the date of monday in week
+  $to = date("Y-m-d", strtotime("{$year}-W{$week}-7"));   //Returns the date of sunday in week
+  if($week=="01" && $year==date('Y')) {
+    $week = date('W');
+    $year=date('Y')+1;
+    $res=getWeekDates($year,$week,$date);
+
+    if($res=="true") { 
+      $res="true";     
+      return $res;
+    }
+    else {
+      $res="false";
+      return $res;
+    }     
+  } 
+  else {
+    if(($date >= $from) && ($date <= $to)) {
+      $res="true";
+      return $res;
+    }
+    else {
+      $res="false";
+      return $res;
+    }
+  } 
+} 
 
 /**
  * This file is part of the array_column library

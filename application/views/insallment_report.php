@@ -2,7 +2,7 @@
 	<div class="panel-heading"><h3>Installment Report</h3></div>
 	<div class="panel-body">
 		<div class="table-responsive">
-			<table class="table table-striped b-t text-small dataTable">
+			<table class="table b-t text-small dataTable">
 			<thead>
 			  <tr>
 			  	<th>Installment Id</th>
