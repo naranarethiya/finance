@@ -45,7 +45,6 @@ class borrower extends CI_Controller {
 
 	public function delete()
 	{
-		//dsm($this->input->post('id')); die();
 		$del_id=$this->input->post('id');
 		$data = array(
 			'deleted_at'=>date('Y-m-d h:i:s')		
@@ -56,7 +55,7 @@ class borrower extends CI_Controller {
 			$return=array("status"=>'1',"message"=>"Borrower deleted successfully");
 		}
 		else {
-			$return=array("status"=>'0',"message"=>"Something went wrong");
+			$return=array("status"=>'0',"message"=>"Something went wrong!");
 		}
 		echo json_encode($return);
 	}
