@@ -55,7 +55,7 @@ class borrower extends CI_Controller {
 			$return=array("status"=>'1',"message"=>"Borrower deleted successfully");
 		}
 		else {
-			$return=array("status"=>'0',"message"=>"Something went wrong!");
+			$return=array("status"=>'0',"message"=>"Something went wrong!!");
 		}
 		echo json_encode($return);
 	}
