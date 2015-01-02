@@ -42,14 +42,20 @@
 
 	/*  get sum of given loan by week  */
 	function get_total_loan() {
-		$sql="SELECT sum(amount) as total FROM loan group by date_format(`start_date`,'%U')";
+		$sql="SELECT sum(amount) as total 
+			FROM loan 
+			group by date_format(`start_date`,'%U') 
+			order by date_format(`start_date`,'%U') desc limit 0,4";
 		$query=$this->db->query($sql);
 		return $query->result_array();  
 	}
 
 	/* get sum of paid installment by week */
 	function get_total_installment() {
-		$sql="SELECT sum(`paid_amount`) as totalinsta FROM installment group by date_format(`paid_date`,'%U')";
+		$sql="SELECT sum(`paid_amount`) as totalinsta 
+			FROM installment 
+			group by date_format(`paid_date`,'%U')
+			order by date_format(`paid_date`,'%U') desc limit 0,4";
 		$query=$this->db->query($sql);
 		return $query->result_array();		
 	}
