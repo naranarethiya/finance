@@ -40,7 +40,7 @@ class login_model extends CI_Model
 	public function check_old_password($old_pass,$uid)
 	{
 		print_r($this->session->all_userdata());
-		$sql="select * from users where uid=?";
+		$sql="select * from user where uid=?";
 		$row=$this->db->query($sql,$uid);
 		if($row->num_rows() > 0)
 		{
@@ -66,7 +66,7 @@ class login_model extends CI_Model
 		{
 			if(strcmp($new,$confirm)==0)
 			{
-				$this->db->query("update users set password=? where uid=?",array($confirm,$this->session->userdata('user_id')));
+				$this->db->query("update user set password=? where uid=?",array($confirm,$this->session->userdata('user_id')));
 				return("Password Change Successfully");
 			}
 			else
