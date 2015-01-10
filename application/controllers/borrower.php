@@ -294,18 +294,75 @@ class borrower extends CI_Controller {
 			'note'=>$note,
 			'payoff'=>$payoff		
 		);
-		
-		$result=$this->borrower_model->save_loan_installment($data);
-		$last_id=$this->db->insert_id();
-		if($result) {
-			$this->session->set_flashdata('success','Installment Added successfully');
-			redirect(base_url().'borrower');
+		if($payoff=="1"){
+			$famont=$this->get_pay_amount($loanid,$paid_date,$payoff);
+			if($famont>$paid_amount) {
+				$this->session->set_flashdata('error','Something went wrong');
+				redirect(base_url().'borrower');			
+			}
 		}
 		else {
-			$this->session->set_flashdata('error','Something went wrong');
-			redirect(base_url().'borrower');
-		} 		
+			$result=$this->borrower_model->save_loan_installment($data);
+			$last_id=$this->db->insert_id();
+			if($result) {
+				$this->session->set_flashdata('success','Installment Added successfully');
+				redirect(base_url().'borrower');
+			}
+			else {
+				$this->session->set_flashdata('error','Something went wrong');
+				redirect(base_url().'borrower');
+			} 
+		}		
 	}
+	
+	function get_pay_amount($id,$date,$payoff) {	
+
+		$this->load->model('borrower_model');
+		$amount=$this->borrower_model->get_loan_amount($id);
+		$chkamount=$this->borrower_model->get_loan_amount_loantxn($id);
+		if($chkamount == "0") {
+			$principal=$amount[0]['amount'];
+		}
+		else {
+			$finalamount=$this->borrower_model->get_loan_finalamount($id);
+			$principal=$finalamount[0]['final_amount'];
+		}
+		$chkdate=$this->borrower_model->get_loan_date($id);
+
+		if($chkdate == "0") {
+			$diff=daydiff($amount[0]['start_date'],$date);
+
+			if($diff<$amount[0]['installment_duration']) {
+				$interest=calculate_interest($principal,$amount[0]['rate'],$amount[0]['installment_duration']);
+			}
+			else {
+				$interest=calculate_interest($principal,$amount[0]['rate'],$diff);				
+			}
+			if($payoff=="1") {
+				$pay_amount=$principal+$interest;
+				return $pay_amount;
+			}
+			else {
+				$pay_amount=$interest;	
+				return $pay_amount;
+			}
+		}
+		else {
+			$last_date=$this->borrower_model->get_date($id);
+			
+			$diff=daydiff($last_date[0]['paid_date'],$date);
+			
+			$interest=calculate_interest($principal,$amount[0]['rate'],$diff);				
+			if($payoff=="1") {
+				$pay_amount=$principal+$interest;
+				return $pay_amount;
+			}
+			else {
+				$pay_amount=$interest;
+				return $pay_amount;
+			}
+		}
+	}	
 }
 
 /* End of file welcome.php */
